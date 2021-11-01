@@ -1,74 +1,68 @@
-import logging
-from typing import Optional, List
+from typing import List, Callable
 
-from waio.handlers.message import HandlerStorage
-from waio.states.fsm import BaseState
-
-logger = logging.getLogger(__name__)
-logging.basicConfig()
-logger.setLevel(logging.DEBUG)
+from waio.handlers.func_handler import FromFuncHandler
+from waio.labeler import LabelerRules
 
 
-class BaseHandlers(HandlerStorage):
+class BaseHandlers:
 
-    def __init__(self):
-        self.handlers: List = []
+    def __init__(self, labeler: LabelerRules):
+        self.handlers: List[FromFuncHandler] = []
         self.middlewares: List = []
+        self.labeler = labeler
 
     def add_message_handler(self, handler):
         self.handlers.append(handler)
 
-    @staticmethod
-    def _build_handler_dict(handler, *args, **filters):
-        logger.debug(f'DEBUG _build_handler_dict - {args=}, {filters=}')
-
-        return {
-            'function': handler,
-            'filters': {f_type: f_value for f_type, f_value in filters.items() if f_value is not None}
-        }
-
     def register_message_handler(
         self,
-        func,
-        commands: Optional[List[str]] = None,
-        state: Optional[BaseState] = None,
-        regexp: Optional[str] = None,
+        handler: Callable,
+        *rules,
+        **custom_rules,
     ):
-        handler = self._build_handler_dict(
-            handler=func,
-            commands=commands,
-            state=state,
-            regexp=regexp,
+        handler_object = FromFuncHandler(
+            handler,
+            *rules,
+            *self.base_rules(**custom_rules),
+            *self.custom_rules(**custom_rules)
         )
-        self.add_message_handler(handler=handler)
+        self.add_message_handler(handler=handler_object)
 
-    @staticmethod
-    async def call_handler(handler, *args, **kwargs):
-        return await handler(*args, **kwargs)
+    def base_rules(self, **rules):
+        default_rules = [
+            self.labeler.default_rules[k](v)
+            for k, v in rules.items()
+            if k in self.labeler.default_rules.keys()
+        ]
+
+        return default_rules
+
+    def custom_rules(self, **rules):
+        custom = [
+            self.labeler.custom_rules[k](v)
+            for k, v in rules.items()
+            if k in self.labeler.custom_rules.keys()
+        ]
+
+        return custom
 
 
 class Handler(BaseHandlers):
 
     def message_handler(
         self,
-        commands: List[str] = None,
-        func=None,
-        content_types=None,
-        chat_types=None,
-        state=None,
-        regexp=None,
+        *rules,
+        **custom_rules
     ):
         def decorator(handler) -> None:
-            handler_dict = self._build_handler_dict(
-                handler=handler,
-                chat_types=chat_types,
-                content_types=content_types,
-                commands=commands,
-                func=func,
-                state=state,
-                regexp=regexp
-            )
-            self.add_message_handler(handler=handler_dict)
-            return handler
 
+            handler_object = FromFuncHandler(
+                handler,
+                *rules,
+                *self.base_rules(**custom_rules),
+                *self.custom_rules(**custom_rules)
+            )
+            self.add_message_handler(handler=handler_object)
+
+            return handler
         return decorator
