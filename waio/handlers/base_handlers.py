@@ -1,13 +1,13 @@
 from typing import List, Callable
 
-from waio.handlers.func_handler import FromFuncHandler
+from waio.handlers import ABCHandler, FromFuncHandler
 from waio.labeler import BotLabeler
 
 
 class BaseHandlers:
 
     def __init__(self, labeler: BotLabeler):
-        self.handlers: List[FromFuncHandler] = []
+        self.handlers: List[ABCHandler] = []
         self.labeler = labeler
 
     def add_message_handler(self, handler):
