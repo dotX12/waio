@@ -1,26 +1,20 @@
 import inspect
-from typing import Union, Callable, Optional, Dict, Any, Awaitable
+from typing import Optional, Dict, Any
 
-from waio.factory.base import ResponseModel
-from waio.factory.factory import factory_gupshup
 from waio.handlers.func_handler import FromFuncHandler
-from waio.protocols.bot import Bot
-from waio.states.context import FSMContext
 from waio.types.message import Message
+from waio.logs.logger import logger
 
 
 class HandlerExecutor:
 
     @classmethod
-    async def execute(cls, handler: FromFuncHandler, message: Message) -> Optional[Callable[[Dict[str, Any]], Awaitable]]:
+    async def execute(cls, handler: FromFuncHandler, message: Message, **middleware_kwargs) -> Optional[Dict[str, Any]]:
+        handler_filter = await handler.filter(message)
 
-        if message.message.type == 'message':
-            handler_filter = await handler.filter(message)
-
-            if isinstance(handler_filter, dict):
-                values_handler = {"message": message, "state": message.state, **handler_filter}
-                func_info = inspect.getfullargspec(handler.handler)
-                values_to_func = {key: value for key, value in values_handler.items() if key in func_info.args}
-
-                return await handler.handle(**values_to_func)
+        if isinstance(handler_filter, dict):
+            values_handler = {"message": message, "state": message.state, **handler_filter, **middleware_kwargs}
+            func_info = inspect.getfullargspec(handler.handler)
+            values_to_func = {key: value for key, value in values_handler.items() if key in func_info.args}
+            return values_to_func
         return None
