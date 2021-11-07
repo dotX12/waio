@@ -29,7 +29,7 @@ class StateRule(ABCMessageRule):
 
     async def check(self, message: Message) -> Union[dict, bool]:
         user_state = await message.current_state()
-        if str(self.state) == user_state:
+        if str(self.state) == user_state or self.state == '*':
             return True
         return False
 
@@ -49,7 +49,7 @@ class RegexRule(ABCMessageRule):
         for regexp in self.regexp:
             match = re.match(regexp, message.message.payload.text)
             if match:
-                return {"regexp": match}
+                return {"regex": match}
         return False
 
 
