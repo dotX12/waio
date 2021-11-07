@@ -12,12 +12,8 @@ class CustomFormDataStorage(FormData):
 
 
 class CustomFormData(CustomFormDataStorage):
-    async def upload(self, key, value: Union[UploadFile, str]):
-        if isinstance(value, UploadFile):
-            bytes_file = await value.read()
-            self.add_multipart_form(
-                name=key, filename=value.filename, value=bytes_file, content_type=value.content_type)
-        elif isinstance(value, str):
+    async def upload(self, key, value: str):
+        if isinstance(value, str):
             self.add_www_form(name=key, value=value)
 
     async def uploads(self, elements: Dict[str, Any]):
