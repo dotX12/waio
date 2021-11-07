@@ -13,6 +13,7 @@ class RedisStorage(RedisConnector):
         self.prefix_fsm = prefix_fsm
 
     def generate_key_state(self, key) -> str:
+
         return f"{self.prefix_fsm}:{key}:state"
 
     def generate_key_data(self, key) -> str:
