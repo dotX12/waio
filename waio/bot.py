@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from pydantic import BaseModel, Field
 
 from waio.client.http import HTTPClient
@@ -9,7 +9,7 @@ from waio.gupshup.form import generate_message_form
 from waio.handlers.base_handlers import Handler, BaseHandlers
 from waio.handlers.executor import HandlerExecutor
 from waio.labeler import BotLabeler
-from waio.middlewares.type import MiddlewareResponse
+from waio.middleware import MiddlewareResponse
 from waio.models.enums import GupshupMethods
 from waio.states.context import FSMContext
 from waio.storage.redis import RedisStorage
@@ -52,7 +52,7 @@ class Bot(GupshupSettings, HTTPClient):
 
 
 class Dispatcher(Handler, BaseHandlers):
-    def __init__(self, bot: Bot, storage: RedisStorage):
+    def __init__(self, bot: Bot, storage: Optional[RedisStorage] = None):
         self.bot = bot
         self.storage = storage
         self.labeler = BotLabeler()
@@ -71,16 +71,17 @@ class Dispatcher(Handler, BaseHandlers):
             message = Message(bot=self.bot, message=data_load, state_func=self.state)
 
             for middleware in self.labeler.MIDDLEWARES:
-                response = await middleware.pre(message)
+                middleware.fill(event=message)
+                response = await middleware.pre()
 
-                logger.debug(f'Pre-Middleware: {middleware}, Return: {response}')
+                logger.debug(f'[PRE]-Middleware: {middleware}')
 
                 if response == MiddlewareResponse(False):
                     return
                 elif isinstance(response, dict):
                     context_variables.update(response)
 
-            logger.debug(f'Pre-Middleware values: {context_variables}')
+            logger.debug(f'[PRE]-Middleware values: {context_variables}')
 
             handle_responses = []
             current_handlers = []
@@ -97,7 +98,9 @@ class Dispatcher(Handler, BaseHandlers):
             logger.debug(f'Handlers: {current_handlers}, Return: {handle_responses}')
 
             for middleware in self.labeler.MIDDLEWARES:
-                logger.debug(f'Post-Middleware - {middleware}')
-                await middleware.post(event=message, handle_responses=handle_responses, handler=current_handlers)
+                middleware.fill(event=message, handlers=current_handlers, handle_responses=handle_responses)
+                logger.debug(f'[POST]-Middleware - {middleware}')
+
+                await middleware.post()
 
 
