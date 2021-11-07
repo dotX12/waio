@@ -1,15 +1,14 @@
 import inspect
 from typing import Optional, Dict, Any
 
-from waio.handlers.func_handler import FromFuncHandler
+from waio.handlers import ABCHandler
 from waio.types.message import Message
-from waio.logs.logger import logger
 
 
 class HandlerExecutor:
 
     @classmethod
-    async def execute(cls, handler: FromFuncHandler, message: Message, **middleware_kwargs) -> Optional[Dict[str, Any]]:
+    async def execute(cls, handler: ABCHandler, message: Message, **middleware_kwargs) -> Optional[Dict[str, Any]]:
         handler_filter = await handler.filter(message)
 
         if isinstance(handler_filter, dict):
