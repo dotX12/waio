@@ -1,5 +1,6 @@
-from typing import Dict, Type
+from typing import Dict, Type, List
 
+from waio.middleware import BaseMiddleware
 from waio.rules.abc import ABCMessageRule
 from waio.rules.default import (
     MessageCommandsRule,
@@ -13,17 +14,18 @@ from waio.rules.default import (
 )
 
 
-class LabelerRules:
+class BotLabeler:
     DEFAULT_RULES: Dict[str, Type[ABCMessageRule]] = {
         "commands": MessageCommandsRule,
         "state": StateRule,
-        "regexp": RegexRule,
+        "regex": RegexRule,
         "text_equals": TextRuleEquals,
         "text_contains": TextRuleContains,
         "text_startswith": TextRuleStartswith,
         "text_endswith": TextRuleEndswith,
         "content_type": ContentTypeRule
     }
+    MIDDLEWARES: List[BaseMiddleware] = []
 
     def __init__(self):
         self._custom_rules = {}
@@ -38,3 +40,6 @@ class LabelerRules:
     @property
     def default_rules(self):
         return self.DEFAULT_RULES
+
+    def register_middleware(self, middleware):
+        self.MIDDLEWARES.append(middleware)
