@@ -16,7 +16,7 @@ class BaseState:
     def __str__(self):
         return f"{self.group.__name__}:{self.state}"
 
-    def __set_name__(self, owner: "StatesGroup", name: str) -> None:
+    def __set_name__(self, owner: "StateGroup", name: str) -> None:
         self.group = owner
         self.state = name
 
@@ -51,5 +51,5 @@ class StatesGroupMeta(type):
             mcs, cls_name, bases, attrs)
 
 
-class StatesGroup(metaclass=StatesGroupMeta):
+class StateGroup(metaclass=StatesGroupMeta):
     pass
