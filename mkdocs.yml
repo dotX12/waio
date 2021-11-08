@@ -14,10 +14,10 @@ extra:
       name: Support
 
 nav:
-  - Хаб: index.md
-  - Туториал:
-      - Содержание туториала: tutorial/index.md
-      - Первый бот: tutorial/first-bot.md
+  - HUB: index.md
+  - Tutorial:
+      - Content of the tutorial: tutorial/index.md
+      - First bot: tutorial/first-bot.md
 
 theme:
   name: material
