@@ -1,17 +1,13 @@
-# Хаб
+#Hub
 
-Добро пожаловать в документацию **WAIO**!
+Welcome to **WAIO** documentation!
 
-**WAIO** — это фреймворк, созданный для комфортной и быстрой разработки высоконагруженных проектов,
-использующих WhatsAPP Business API.
+**WAIO** is a framework created for comfortable and fast development of high-load projects,
+using the WhatsAPP Business API.
 
-Сервис работает с API **Gupshup** (Официальный партнер Facebook).
+The service works with API **Gupshup** (Official partner of Facebook).
 
-Используйте меню слева для навигации.
+Use the menu on the left to navigate.
 
-Для начинающих рекомендуется ознакомиться с [туториалом](tutorial/index.md),
-а для продолжающих с технической документацией по интерфейсам разных уровней.
-
-
-
-
+For beginners, it is recommended to read the [tutorial](tutorial/index.md),
+and for those who continue with technical documentation on interfaces of different levels.
