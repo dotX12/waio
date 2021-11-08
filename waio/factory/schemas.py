@@ -53,6 +53,7 @@ class Schemas:
             "url": ("payload", "url"),
             "content_type": ("payload", "contentType"),
             "url_expiry": ("payload", "urlExpiry"),
+            "caption": ("payload", "caption")
         },
         pre_parse=type_checker(value="image", field="type"),
         skip_internal=True
