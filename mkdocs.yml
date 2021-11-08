@@ -50,7 +50,5 @@ markdown_extensions:
   - pymdownx.snippets:
       check_paths: true
 
-plugins:
-  - include-markdown
 extra_css:
   - _css/style.css
