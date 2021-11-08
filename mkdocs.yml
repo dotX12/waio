@@ -1,0 +1,45 @@
+site_name: waio
+name: waio
+site_description: Awesome WhatsAPP framework
+site_author: dotX12
+repo_name: dotX12/waio
+repo_url: https://github.com/dotX12/waio
+edit_uri: edit/master/docs/
+
+extra:
+  disqus: ""
+  social:
+    - icon: fontawesome/brands/telegram
+      link: https://t.me/dotX12
+      name: Support
+
+nav:
+  - Хаб: index.md
+  - Туториал:
+      - Содержание туториала: tutorial/index.md
+      - Первый бот: tutorial/first-bot.md
+
+theme:
+  name: material
+  language: en
+
+  palette:
+    scheme: slate
+    primary: black
+    accent: blue
+
+  font:
+    text: Roboto Mono
+    code: Monaco
+
+  favicon: logo.png
+
+markdown_extensions:
+  - admonition
+  - pymdownx.magiclink
+  - pymdownx.superfences
+  - pymdownx.snippets:
+      check_paths: true
+
+extra_css:
+  - _css/style.css
