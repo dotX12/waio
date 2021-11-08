@@ -1,12 +1,12 @@
 import re
 from typing import List, Any, Union, Optional, Dict
 
-from waio.rules.abc import ABCMessageRule
+from waio.rules.abc import ABCRule
 from waio.types.content_types import ContentType
 from waio.types.message import Message
 
 
-class MessageCommandsRule(ABCMessageRule):
+class MessageCommandsRule(ABCRule):
     def __init__(self, commands: List[str], prefix: str = "/"):
         self.prefix = prefix
         self.commands = commands
@@ -20,7 +20,7 @@ class MessageCommandsRule(ABCMessageRule):
         return False
 
 
-class StateRule(ABCMessageRule):
+class StateRule(ABCRule):
     def __init__(self, state: Any):
         self.state = state
 
@@ -31,7 +31,7 @@ class StateRule(ABCMessageRule):
         return False
 
 
-class RegexRule(ABCMessageRule):
+class RegexRule(ABCRule):
     def __init__(self, regexp: Union[str, List[str], re.Pattern, List[re.Pattern]]):
         if isinstance(regexp, re.Pattern):
             regexp = [regexp]
@@ -50,7 +50,7 @@ class RegexRule(ABCMessageRule):
         return False
 
 
-class TextRuleEquals(ABCMessageRule):
+class TextRuleEquals(ABCRule):
     def __init__(self, equals: List[str]):
         self.equals = equals
 
@@ -61,7 +61,7 @@ class TextRuleEquals(ABCMessageRule):
         return False
 
 
-class TextRuleContains(ABCMessageRule):
+class TextRuleContains(ABCRule):
     def __init__(self, contains: List[str]):
         self.contains = contains
 
@@ -72,7 +72,7 @@ class TextRuleContains(ABCMessageRule):
         return False
 
 
-class TextRuleStartswith(ABCMessageRule):
+class TextRuleStartswith(ABCRule):
     def __init__(self, startswith: List[str]):
         self.startswith = startswith
 
@@ -83,7 +83,7 @@ class TextRuleStartswith(ABCMessageRule):
         return False
 
 
-class TextRuleEndswith(ABCMessageRule):
+class TextRuleEndswith(ABCRule):
     def __init__(self, endswith: List[str]):
         self.endswith = endswith
 
@@ -94,7 +94,7 @@ class TextRuleEndswith(ABCMessageRule):
         return False
 
 
-class TextRule(ABCMessageRule):
+class TextRule(ABCRule):
     def __init__(
         self,
         equals: Optional[List[str]] = None,
@@ -125,7 +125,7 @@ class TextRule(ABCMessageRule):
             return await es.check(message)
 
 
-class ContentTypeRule(ABCMessageRule):
+class ContentTypeRule(ABCRule):
     def __init__(self, content_types: List[ContentType]):
         self.content_types = content_types
 
@@ -136,7 +136,7 @@ class ContentTypeRule(ABCMessageRule):
         return False
 
 
-class PhoneNumberRule(ABCMessageRule):
+class PhoneNumberRule(ABCRule):
     def __init__(self, phones: List[int]):
         self.phones = phones
 

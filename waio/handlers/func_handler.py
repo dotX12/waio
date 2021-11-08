@@ -1,9 +1,9 @@
 from typing import Callable, Union, Any
-from waio.rules.abc import ABCMessageRule
+from waio.rules.abc import ABCRule
 
 
 class FromFuncHandler:
-    def __init__(self, handler: Callable, *rules: ABCMessageRule):
+    def __init__(self, handler: Callable, *rules: ABCRule):
         self.handler = handler
         self.rules = rules
 

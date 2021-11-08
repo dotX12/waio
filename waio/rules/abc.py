@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Union
 
 
-class ABCMessageRule(ABC):
+class ABCRule(ABC):
 
     @abstractmethod
     def __init__(self, *args, **kwargs):

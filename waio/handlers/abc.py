@@ -1,14 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import Any, Union, Callable
 
-from waio.rules.abc import ABCMessageRule
+from waio.rules.abc import ABCRule
 from waio.types import Message
 
 
 class ABCHandler(ABC):
 
     @abstractmethod
-    def __init__(self, handler: Callable, *rules: ABCMessageRule):
+    def __init__(self, handler: Callable, *rules: ABCRule):
         self.handler = handler
         self.rules = rules
 
