@@ -26,7 +26,8 @@ async def start_command(message: Message):
 
 @dp.message_handler(text_startswitch=['!!', '##'])
 async def start_switch(message: Message):
-    await message.answer(f'Hello, {message.message.payload.sender.name}, text: {message.message.payload.text}')
+    await message.answer(f'Hello, {message.message.payload.sender.name},'
+                         f' text: {message.message.payload.text}')
 
 
 async def handler_gupshup(request):

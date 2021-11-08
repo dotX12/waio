@@ -39,7 +39,8 @@ If you want to handle all text messages in the chat simply add handler without f
 ```python3
 @dp.message_handler()
 async def start_switch(message: Message):
-    await message.answer(f'Hello, {message.message.payload.sender.name}, text: {message.message.payload.text}')
+    await message.answer(f'Hello, {message.message.payload.sender.name},'
+                         f' text: {message.message.payload.text}')
 ```
 
 Last step: run webhook.
