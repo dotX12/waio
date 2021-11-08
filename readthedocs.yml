@@ -1,0 +1,9 @@
+version: 2
+
+python:
+  version: 3.7
+  install:
+    - requirements: mkdocs-requirements.txt
+
+mkdocs:
+ configuration: mkdocs.yml
