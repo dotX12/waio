@@ -11,9 +11,9 @@ class MessagePropertyEvent:
 
     @property
     def text(self) -> str:
-        if hasattr(self.message.payload, 'caption'):
+        if hasattr(self.message.payload, 'caption') and self.message.payload.caption:
             return self.message.payload.caption
-        if hasattr(self.message.payload, 'text'):
+        if hasattr(self.message.payload, 'text') and self.message.payload.text:
             return self.message.payload.text
         return ''
 
