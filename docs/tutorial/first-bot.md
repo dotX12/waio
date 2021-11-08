@@ -1,104 +1,165 @@
-## Simple template
-At first you have to import all necessary modules.
+[comment]: <> (## Simple template)
 
-```python3
-from aiohttp import web
-from waio import Bot, Dispatcher
-from waio.types import Message
-from waio.logs import loguru_filter
-```
+[comment]: <> (At first you have to import all necessary modules.)
 
-Then you have to initialize bot and dispatcher instances.
-src_name, phone_number, apikey can be obtained from your gupshup account.
+[comment]: <> (```python3)
 
-```python3
-loguru_filter.set_level('DEBUG')
+[comment]: <> (from aiohttp import web)
 
-bot = Bot(
-    apikey='algAJW9512kMWGALZIkAMWG',
-    src_name='test_client18215',
-    phone_number='79189998877'
-)
+[comment]: <> (from waio import Bot, Dispatcher)
 
-dp = Dispatcher(bot=bot)
-```
+[comment]: <> (from waio.types import Message)
 
-Next step: interaction with bots starts with one command.
-Register your first command handler:
+[comment]: <> (from waio.logs import loguru_filter)
 
-```python3
-@dp.message_handler(commands=['start', 'echo'])
-async def start_command(message: Message):
-    """
-    This handler will be called when user sends
-    `/start` or `/echo` command
-    """
-    await message.answer(f'Hello, {message.message.payload.sender.name}')
-```
-If you want to handle all text messages in the chat simply add handler without filters:
-```python3
-@dp.message_handler()
-async def start_switch(message: Message):
-    await message.answer(f'Hello, {message.message.payload.sender.name},'
-                         f' text: {message.message.payload.text}')
-```
+[comment]: <> (```)
 
-Last step: run webhook.
+[comment]: <> (Then you have to initialize bot and dispatcher instances.)
 
-```python3
-async def handler_gupshup(request):
-    event = await request.json()
-    await dp.handle_event(event)
-    return web.Response(status=200)
+[comment]: <> (src_name, phone_number, apikey can be obtained from your gupshup account.)
 
+[comment]: <> (```python3)
 
-if __name__ == "__main__":
-    webhook = web.Application()
-    webhook.add_routes([web.post('/api/v1/gupshup/hook', handler_gupshup)])
-    web.run_app(webhook, port=8017)
-```
+[comment]: <> (loguru_filter.set_level&#40;'DEBUG'&#41;)
 
-### Summary
+[comment]: <> (bot = Bot&#40;)
 
-```python3
-from aiohttp import web
-from waio import Bot, Dispatcher
-from waio.types import Message
-from waio.logs import loguru_filter
+[comment]: <> (    apikey='algAJW9512kMWGALZIkAMWG',)
 
-loguru_filter.set_level('DEBUG')
+[comment]: <> (    src_name='test_client18215',)
 
-bot = Bot(
-    apikey='algAJW9512kMWGALZIkAMWG',
-    src_name='test_client18215',
-    phone_number='79189998877'
-)
+[comment]: <> (    phone_number='79189998877')
 
-dp = Dispatcher(bot=bot)
+[comment]: <> (&#41;)
 
+[comment]: <> (dp = Dispatcher&#40;bot=bot&#41;)
 
-@dp.message_handler(commands=['start', 'echo'])
-async def start_command(message: Message):
-    """
-    This handler will be called when user sends
-    `/start` or `/echo` command
-    """
-    await message.answer(f'Hello, {message.message.payload.sender.name}')
+[comment]: <> (```)
 
+[comment]: <> (Next step: interaction with bots starts with one command.)
 
-@dp.message_handler(text_startswitch=['!!', '##'])
-async def start_switch(message: Message):
-    await message.answer(f'Hello, {message.message.payload.sender.name},'
-                         f' text: {message.message.payload.text}')
+[comment]: <> (Register your first command handler:)
 
-async def handler_gupshup(request):
-    event = await request.json()
-    await dp.handle_event(event)
-    return web.Response(status=200)
+[comment]: <> (```python3)
+
+[comment]: <> (@dp.message_handler&#40;commands=['start', 'echo']&#41;)
+
+[comment]: <> (async def start_command&#40;message: Message&#41;:)
+
+[comment]: <> (    """)
+
+[comment]: <> (    This handler will be called when user sends)
+
+[comment]: <> (    `/start` or `/echo` command)
+
+[comment]: <> (    """)
+
+[comment]: <> (    await message.answer&#40;f'Hello, {message.message.payload.sender.name}'&#41;)
+
+[comment]: <> (```)
+
+[comment]: <> (If you want to handle all text messages in the chat simply add handler without filters:)
+
+[comment]: <> (```python3)
+
+[comment]: <> (@dp.message_handler&#40;&#41;)
+
+[comment]: <> (async def start_switch&#40;message: Message&#41;:)
+
+[comment]: <> (    await message.answer&#40;f'Hello, {message.message.payload.sender.name},')
+
+[comment]: <> (                         f' text: {message.message.payload.text}'&#41;)
+
+[comment]: <> (```)
+
+[comment]: <> (Last step: run webhook.)
+
+[comment]: <> (```python3)
+
+[comment]: <> (async def handler_gupshup&#40;request&#41;:)
+
+[comment]: <> (    event = await request.json&#40;&#41;)
+
+[comment]: <> (    await dp.handle_event&#40;event&#41;)
+
+[comment]: <> (    return web.Response&#40;status=200&#41;)
 
 
-if __name__ == "__main__":
-    webhook = web.Application()
-    webhook.add_routes([web.post('/api/v1/gupshup/hook', handler_gupshup)])
-    web.run_app(webhook, port=8017)
-```
+[comment]: <> (if __name__ == "__main__":)
+
+[comment]: <> (    webhook = web.Application&#40;&#41;)
+
+[comment]: <> (    webhook.add_routes&#40;[web.post&#40;'/api/v1/gupshup/hook', handler_gupshup&#41;]&#41;)
+
+[comment]: <> (    web.run_app&#40;webhook, port=8017&#41;)
+
+[comment]: <> (```)
+
+[comment]: <> (### Summary)
+
+[comment]: <> (```python3)
+
+[comment]: <> (from aiohttp import web)
+
+[comment]: <> (from waio import Bot, Dispatcher)
+
+[comment]: <> (from waio.types import Message)
+
+[comment]: <> (from waio.logs import loguru_filter)
+
+[comment]: <> (loguru_filter.set_level&#40;'DEBUG'&#41;)
+
+[comment]: <> (bot = Bot&#40;)
+
+[comment]: <> (    apikey='algAJW9512kMWGALZIkAMWG',)
+
+[comment]: <> (    src_name='test_client18215',)
+
+[comment]: <> (    phone_number='79189998877')
+
+[comment]: <> (&#41;)
+
+[comment]: <> (dp = Dispatcher&#40;bot=bot&#41;)
+
+
+[comment]: <> (@dp.message_handler&#40;commands=['start', 'echo']&#41;)
+
+[comment]: <> (async def start_command&#40;message: Message&#41;:)
+
+[comment]: <> (    """)
+
+[comment]: <> (    This handler will be called when user sends)
+
+[comment]: <> (    `/start` or `/echo` command)
+
+[comment]: <> (    """)
+
+[comment]: <> (    await message.answer&#40;f'Hello, {message.message.payload.sender.name}'&#41;)
+
+
+[comment]: <> (@dp.message_handler&#40;text_startswitch=['!!', '##']&#41;)
+
+[comment]: <> (async def start_switch&#40;message: Message&#41;:)
+
+[comment]: <> (    await message.answer&#40;f'Hello, {message.message.payload.sender.name},')
+
+[comment]: <> (                         f' text: {message.message.payload.text}'&#41;)
+
+[comment]: <> (async def handler_gupshup&#40;request&#41;:)
+
+[comment]: <> (    event = await request.json&#40;&#41;)
+
+[comment]: <> (    await dp.handle_event&#40;event&#41;)
+
+[comment]: <> (    return web.Response&#40;status=200&#41;)
+
+
+[comment]: <> (if __name__ == "__main__":)
+
+[comment]: <> (    webhook = web.Application&#40;&#41;)
+
+[comment]: <> (    webhook.add_routes&#40;[web.post&#40;'/api/v1/gupshup/hook', handler_gupshup&#41;]&#41;)
+
+[comment]: <> (    web.run_app&#40;webhook, port=8017&#41;)
+
+[comment]: <> (```)

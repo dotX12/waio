@@ -1,7 +1,5 @@
-# Tutorial content
+[comment]: <> (# Tutorial content)
 
-1. [The first bot on waio](first-bot.md)
-2. [Rules](rules.md)
-3. [Code separation](code-separation.md)
-4. [Keyboards and Attachments](keyboards-attachments.md)
-5. [Middleware](middlewares-return-managers.md)
+[comment]: <> (1. [The first bot on waio]&#40;first-bot.md&#41;)
+
+[comment]: <> (2. [Filters]&#40;filters.md&#41;)

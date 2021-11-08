@@ -6,6 +6,9 @@ repo_name: dotX12/waio
 repo_url: https://github.com/dotX12/waio
 edit_uri: edit/master/docs/
 
+plugins:
+  - material-relative-language-selector
+
 extra:
   disqus: ""
   social:
@@ -13,11 +16,22 @@ extra:
       link: https://t.me/dotX12
       name: Support
 
+  alternate:
+    - name: English
+      link: /en/
+      lang: en
+
+    - name: Russian
+      link: /ru/
+      lang: ru
+
+
 nav:
   - HUB: index.md
   - Tutorial:
       - Content of the tutorial: tutorial/index.md
       - First bot: tutorial/first-bot.md
+
 
 theme:
   name: material
