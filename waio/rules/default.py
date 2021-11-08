@@ -12,13 +12,11 @@ class MessageCommandsRule(ABCMessageRule):
         self.commands = commands
 
     async def check(self, message: Message) -> bool:
-        text = message.message.payload.text
-
         for command in self.commands:
             command_and_prefix = f"{self.prefix}{command}"
 
-            if text.startswith(self.prefix):
-                if command_and_prefix == text:
+            if message.text.startswith(self.prefix):
+                if command_and_prefix == message.text:
                     return True
         return False
 
@@ -47,7 +45,7 @@ class RegexRule(ABCMessageRule):
 
     async def check(self, message: Message) -> Union[Dict[str, re.Match], bool]:
         for regexp in self.regexp:
-            match = re.match(regexp, message.message.payload.text)
+            match = re.match(regexp, message.text)
             if match:
                 return {"regex": match}
         return False
@@ -59,7 +57,7 @@ class TextRuleEquals(ABCMessageRule):
 
     async def check(self, message: Message) -> bool:
         for elem in self.equals:
-            if elem == message.message.payload.text:
+            if elem == message.text:
                 return True
         return False
 
@@ -70,7 +68,7 @@ class TextRuleContains(ABCMessageRule):
 
     async def check(self, message: Message) -> bool:
         for elem in self.contains:
-            if elem in message.message.payload.text:
+            if elem in message.text:
                 return True
         return False
 
@@ -81,7 +79,7 @@ class TextRuleStartswith(ABCMessageRule):
 
     async def check(self, message: Message) -> bool:
         for elem in self.startswith:
-            if message.message.payload.text.startswith(elem):
+            if message.text.startswith(elem):
                 return True
         return False
 
@@ -92,7 +90,7 @@ class TextRuleEndswith(ABCMessageRule):
 
     async def check(self, message: Message) -> bool:
         for elem in self.endswith:
-            if message.message.payload.text.endswith(elem):
+            if message.text.endswith(elem):
                 return True
         return False
 
