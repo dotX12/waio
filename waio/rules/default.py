@@ -54,44 +54,56 @@ class RegexRule(ABCMessageRule):
 
 
 class TextRuleEquals(ABCMessageRule):
-    def __init__(self, equals: str):
+    def __init__(self, equals: List[str]):
         self.equals = equals
 
     async def check(self, message: Message) -> bool:
-        return self.equals == message.message.payload.text
+        for elem in self.equals:
+            if elem == message.message.payload.text:
+                return True
+        return False
 
 
 class TextRuleContains(ABCMessageRule):
-    def __init__(self, contains: str):
+    def __init__(self, contains: List[str]):
         self.contains = contains
 
     async def check(self, message: Message) -> bool:
-        return self.contains in message.message.payload.text
+        for elem in self.contains:
+            if elem in message.message.payload.text:
+                return True
+        return False
 
 
 class TextRuleStartswith(ABCMessageRule):
-    def __init__(self, startswith: str):
+    def __init__(self, startswith: List[str]):
         self.startswith = startswith
 
     async def check(self, message: Message) -> bool:
-        return message.message.payload.text.startswith(self.startswith)
+        for elem in self.startswith:
+            if message.message.payload.text.startswith(elem):
+                return True
+        return False
 
 
 class TextRuleEndswith(ABCMessageRule):
-    def __init__(self, endswith: str):
+    def __init__(self, endswith: List[str]):
         self.endswith = endswith
 
     async def check(self, message: Message) -> bool:
-        return message.message.payload.text.endswith(self.endswith)
+        for elem in self.endswith:
+            if message.message.payload.text.endswith(elem):
+                return True
+        return False
 
 
 class TextRule(ABCMessageRule):
     def __init__(
         self,
-        equals: Optional[str] = None,
-        contains: Optional[str] = None,
-        startswith: Optional[str] = None,
-        endswith: Optional[str] = None
+        equals: Optional[List[str]] = None,
+        contains: Optional[List[str]] = None,
+        startswith: Optional[List[str]] = None,
+        endswith: Optional[List[str]] = None
     ):
         self.equals = equals
         self.contains = contains
