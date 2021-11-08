@@ -14,7 +14,6 @@ class MessageCommandsRule(ABCMessageRule):
     async def check(self, message: Message) -> bool:
         for command in self.commands:
             command_and_prefix = f"{self.prefix}{command}"
-
             if message.text.startswith(self.prefix):
                 if command_and_prefix == message.text:
                     return True
