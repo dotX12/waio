@@ -6,36 +6,26 @@ repo_name: dotX12/waio
 repo_url: https://github.com/dotX12/waio
 edit_uri: edit/master/docs/
 
-plugins:
-  - material-relative-language-selector
-
 extra:
   disqus: ""
   social:
     - icon: fontawesome/brands/telegram
-      link: https://t.me/dotX12
-      name: Support
-
-  alternate:
-    - name: English
-      link: /en/
-      lang: en
-
-    - name: Russian
-      link: /ru/
-      lang: ru
-
+      link: https://t.me/waioru
+      name: Russian Chat
 
 nav:
   - HUB: index.md
   - Tutorial:
       - Content of the tutorial: tutorial/index.md
       - First bot: tutorial/first-bot.md
-
+      - Filter rules: tutorial/filters.md
 
 theme:
   name: material
   language: en
+
+  features:
+    - content.code.annotate
 
   palette:
     scheme: slate
@@ -50,10 +40,17 @@ theme:
 
 markdown_extensions:
   - admonition
-  - pymdownx.magiclink
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
   - pymdownx.superfences
+  - pymdownx.snippets
+  - pymdownx.magiclink
+  - toc:
+      permalink: True
   - pymdownx.snippets:
       check_paths: true
 
+plugins:
+  - include-markdown
 extra_css:
   - _css/style.css
