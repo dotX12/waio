@@ -1,6 +1,5 @@
 from aiohttp import FormData
-from typing import Any, Optional, Dict, Union
-from fastapi import UploadFile
+from typing import Any, Optional, Dict
 
 
 class CustomFormDataStorage(FormData):
