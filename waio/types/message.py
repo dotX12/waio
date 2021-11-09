@@ -25,6 +25,18 @@ class MessagePropertyEvent:
     def sender_name(self):
         return self.message.payload.sender.name
 
+    @property
+    def callback_data_item(self):
+        if hasattr(self.message.payload, 'postback_text') and self.message.payload.postback_text:
+            return self.message.payload.postback_text
+        return ''
+
+    @property
+    def callback_data_list(self):
+        if hasattr(self.message.payload, 'id') and self.message.payload.id:
+            return self.message.payload.id
+        return ''
+
 
 class Message(MessagePropertyEvent):
     def __init__(self, bot: Bot, message: ResponseModel, state_func: Callable[[int], FSMContext]):
