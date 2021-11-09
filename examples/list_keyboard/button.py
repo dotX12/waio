@@ -1,5 +1,5 @@
 from waio.keyboard.list import ListGroup, ListGroupItem, ListMessage
-from examples.list.callbacks import callback_list_restaurant, callback_element_restaurant
+from examples.list_keyboard.callbacks import callback_list_restaurant, callback_element_restaurant
 
 
 def generate_button():

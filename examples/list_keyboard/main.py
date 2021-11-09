@@ -4,8 +4,8 @@ from aiohttp import web
 from waio import Bot, Dispatcher
 from waio.logs import loguru_filter
 from waio.types import Message
-from examples.list.button import generate_button
-from examples.list.callbacks import callback_element_restaurant, callback_list_restaurant
+from examples.list_keyboard.button import generate_button
+from examples.list_keyboard.callbacks import callback_element_restaurant, callback_list_restaurant
 
 loguru_filter.set_level('DEBUG')
 
