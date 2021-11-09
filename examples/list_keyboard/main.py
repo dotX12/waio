@@ -1,4 +1,3 @@
-import asyncio
 from aiohttp import web
 
 from waio import Bot, Dispatcher
@@ -15,6 +14,11 @@ bot = Bot(
     phone_number=00000000)
 
 dp = Dispatcher(bot=bot)
+
+
+@dp.message_handler(commands=['keyboard'])
+async def get_keyboard(message: Message):
+    await message.bot.send_list(message.sender_number, keyboard=generate_button())
 
 
 @dp.message_handler(callback_element_restaurant.filter(name='kfc'))
@@ -37,13 +41,7 @@ async def handler_gupshup(request):
     return web.Response(status=200)
 
 
-async def _send_keyboard():
-    await bot.send_list(receiver=79109998877, button=generate_button())
-
-
 if __name__ == "__main__":
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(_send_keyboard())
 
     webhook = web.Application()
     webhook.add_routes([web.post('/api/v1/gupshup/hook', handler_gupshup)])
