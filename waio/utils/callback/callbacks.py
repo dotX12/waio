@@ -1,8 +1,8 @@
 from waio.utils.callback.base_callback import CallbackDataBase
-from waio.utils.callback.filters import CallbackDataFilterItem, CallbackDataFilterList
+from waio.utils.callback.filters import CallbackDataFilterItem, CallbackDataFilterGroup
 
 
-class CallbackItem(CallbackDataBase):
+class CallbackDataItem(CallbackDataBase):
 
     def filter(self, **config) -> 'CallbackDataFilterItem':
         for key in config.keys():
@@ -11,10 +11,10 @@ class CallbackItem(CallbackDataBase):
         return CallbackDataFilterItem(self, config)
 
 
-class CallbackList(CallbackDataBase):
+class CallbackDataGroup(CallbackDataBase):
 
-    def filter(self, **config) -> 'CallbackDataFilterList':
+    def filter(self, **config) -> 'CallbackDataFilterGroup':
         for key in config.keys():
             if key not in self._part_names:
                 raise ValueError(f'Invalid field name {key!r}')
-        return CallbackDataFilterList(self, config)
+        return CallbackDataFilterGroup(self, config)
