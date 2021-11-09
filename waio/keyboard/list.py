@@ -1,5 +1,4 @@
 from typing import Optional, Union, List
-
 import ujson
 
 from waio.utils.dicts import clear_none_values
