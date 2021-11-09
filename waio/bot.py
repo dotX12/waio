@@ -1,5 +1,4 @@
 from typing import Any, Dict, Optional
-from pydantic import BaseModel, Field
 
 from waio.client.http import HTTPClient
 from waio.factory.base import ResponseModel
@@ -8,21 +7,15 @@ from waio.gupshup.api import GupshupSettings
 from waio.gupshup.form import generate_message_form
 from waio.handlers.base_handlers import Handler, BaseHandlers
 from waio.handlers.executor import HandlerExecutor
+from waio.keyboard.list import ListMessage
 from waio.labeler import BotLabeler
 from waio.middleware import MiddlewareResponse
 from waio.models.enums import GupshupMethods
+from waio.models.text import MessageText
 from waio.states.context import FSMContext
 from waio.storage.redis import RedisStorage
 from waio.types.message import Message
 from waio.logs.logger import logger
-
-
-class MessageText(BaseModel):
-    text: str = Field(...)
-
-
-class MessageTextType(MessageText):
-    type: str = Field(default='text')
 
 
 class Bot(GupshupSettings, HTTPClient):
@@ -39,9 +32,19 @@ class Bot(GupshupSettings, HTTPClient):
         )
 
     async def send_message(self, receiver: int, message: str):
-        # TODO: НАДО УБРАТЬ, ТЕСТИРУЮ ДЛЯ БОТА.
-        msg = MessageTextType(text=message)
+        msg = MessageText(text=message)
         form = self.generate_form(receiver=receiver, message=msg)
+        response = await self.request(
+            headers=self._headers(),
+            method='POST',
+            url=GupshupMethods.message.value,
+            data=form,
+        )
+        return response
+
+    async def send_list(self, receiver: int, button: ListMessage):
+        form = self.generate_form(receiver=receiver, message=button)
+
         response = await self.request(
             headers=self._headers(),
             method='POST',
