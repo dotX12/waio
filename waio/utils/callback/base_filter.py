@@ -1,13 +1,13 @@
-from abc import abstractmethod, ABC
-from typing import Union, Dict, Any
+from abc import ABC, abstractmethod
+from typing import Dict, Any
 
 from waio.types import Message
-from waio.utils.callback.callbacks import CallbackItem, CallbackList
+from waio.utils.callback.base_callback import CallbackDataBase
 
 
 class CallbackDataFilterBase(ABC):
 
-    def __init__(self, factory: Union[CallbackItem, CallbackList], config: Dict[str, str]):
+    def __init__(self, factory: CallbackDataBase, config: Dict[str, str]):
         self.config = config
         self.factory = factory
 
