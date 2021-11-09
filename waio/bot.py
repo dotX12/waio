@@ -23,7 +23,17 @@ class Bot(GupshupSettings, HTTPClient):
     def __init__(self, apikey: str, src_name: str, phone_number: int):
         super().__init__(apikey=apikey, src_name=src_name, phone_number=phone_number)
 
-    def generate_form(self, receiver, message):
+    async def _base_request(self, receiver: int, data: Any):
+        form = self._generate_form(receiver=receiver, message=data)
+        response = await self.request(
+            headers=self._headers(),
+            method='POST',
+            url=GupshupMethods.message.value,
+            data=form,
+        )
+        return response
+
+    def _generate_form(self, receiver, message):
         return generate_message_form(
             source=self.phone_number,
             receiver=receiver,
@@ -33,25 +43,10 @@ class Bot(GupshupSettings, HTTPClient):
 
     async def send_message(self, receiver: int, message: str):
         msg = MessageText(text=message)
-        form = self.generate_form(receiver=receiver, message=msg)
-        response = await self.request(
-            headers=self._headers(),
-            method='POST',
-            url=GupshupMethods.message.value,
-            data=form,
-        )
-        return response
+        return await self._base_request(receiver=receiver, data=msg)
 
     async def send_list(self, receiver: int, button: ListMessage):
-        form = self.generate_form(receiver=receiver, message=button)
-
-        response = await self.request(
-            headers=self._headers(),
-            method='POST',
-            url=GupshupMethods.message.value,
-            data=form,
-        )
-        return response
+        return await self._base_request(receiver=receiver, data=button)
 
 
 class Dispatcher(Handler, BaseHandlers):
