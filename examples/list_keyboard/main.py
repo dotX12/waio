@@ -19,14 +19,14 @@ dp = Dispatcher(bot=bot)
 
 @dp.message_handler(callback_element_restaurant.filter(name='kfc'))
 async def start_command(message: Message):
-    await message.answer(f'Среагировали на ресторан KFC\n'
+    await message.answer(f'Triggered on: callback_element_restaurant [KFC]\n'
                          f'CallbackDataList: {message.callback_data_list}\n'
                          f'CallbackDataItem: {message.callback_data_item}\n')
 
 
 @dp.message_handler(callback_list_restaurant.filter(id='1337'))
 async def start_command(message: Message):
-    await message.answer(f'Среагировали на List\n'
+    await message.answer(f'Triggered on callback_list_restaurant\n'
                          f'CallbackDataList: {message.callback_data_list}\n'
                          f'CallbackDataItem: {message.callback_data_item}\n')
 
@@ -38,7 +38,7 @@ async def handler_gupshup(request):
 
 
 async def _send_keyboard():
-    await bot.send_list(receiver=79189781008, button=generate_button())
+    await bot.send_list(receiver=79109998877, button=generate_button())
 
 
 if __name__ == "__main__":
