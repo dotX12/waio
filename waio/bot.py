@@ -8,6 +8,7 @@ from waio.gupshup.form import generate_message_form
 from waio.handlers.base_handlers import Handler, BaseHandlers
 from waio.handlers.executor import HandlerExecutor
 from waio.keyboard.list import ListMessage
+from waio.keyboard.reply import QuickReply
 from waio.labeler import BotLabeler
 from waio.middleware import MiddlewareResponse
 from waio.models.enums import GupshupMethods
@@ -45,8 +46,11 @@ class Bot(GupshupSettings, HTTPClient):
         msg = MessageText(text=message)
         return await self._base_request(receiver=receiver, data=msg)
 
-    async def send_list(self, receiver: int, button: ListMessage):
-        return await self._base_request(receiver=receiver, data=button)
+    async def send_list(self, receiver: int, keyboard: ListMessage):
+        return await self._base_request(receiver=receiver, data=keyboard)
+
+    async def send_reply(self, receiver: int, keyboard: QuickReply):
+        return await self._base_request(receiver=receiver, data=keyboard)
 
 
 class Dispatcher(Handler, BaseHandlers):
