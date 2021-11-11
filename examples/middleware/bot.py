@@ -1,8 +1,8 @@
 from aiohttp import web
+from waio.types import Message
 
 from examples.middleware.database import ExampleDatabase
-from waio.types import Message
-from misc import *
+from examples.middleware.misc import *
 
 webhook = web.Application()
 
