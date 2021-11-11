@@ -1,7 +1,8 @@
 import re
-from typing import List, Any, Union, Optional, Dict
+from typing import List, Union, Optional, Dict, Literal
 
 from waio.rules.abc import ABCRule
+from waio.states import BaseState
 from waio.types.content_types import ContentType
 from waio.types.message import Message
 
@@ -21,12 +22,12 @@ class MessageCommandsRule(ABCRule):
 
 
 class StateRule(ABCRule):
-    def __init__(self, state: Any):
+    def __init__(self, state: Optional[Union[BaseState, Literal['*']]] = None):
         self.state = state
 
     async def check(self, message: Message) -> Union[dict, bool]:
         user_state = await message.current_state()
-        if str(self.state) == user_state or self.state == '*':
+        if str(self.state) == user_state or not self.state or self.state == '*':
             return True
         return False
 
