@@ -1,27 +1,32 @@
-from typing import Dict
 
+from typing import Dict
 from aiohttp import web
 from aiohttp.web_request import Request
+
+from examples.reply_keyboard.button import generate_keyboard, generate_keyboard_image
+from examples.reply_keyboard.callback import callback_reply_keyboard
 from waio import Bot, Dispatcher
 from waio.logs import loguru_filter
 from waio.types import Message
 
-
-from examples.reply_keyboard.button import generate_keyboard
-from examples.reply_keyboard.callback import callback_reply_keyboard
 loguru_filter.set_level('DEBUG')
 
 bot = Bot(
     apikey='API_KEY',
     src_name='SRC_NAME',
-    phone_number=0000000000
+    phone_number=79224566778
 )
 
 dp = Dispatcher(bot=bot)
 
 
-@dp.message_handler(commands=['keyboard'])
-async def get_keyboard(message: Message):
+@dp.message_handler(commands=['keyboard_image'])
+async def get_keyboard_img(message: Message):
+    await message.bot.send_reply(receiver=message.sender_number, keyboard=generate_keyboard_image())
+
+
+@dp.message_handler(commands=['keyboard_text'])
+async def get_keyboard_text(message: Message):
     await message.bot.send_reply(receiver=message.sender_number, keyboard=generate_keyboard())
 
 
