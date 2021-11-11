@@ -1,19 +1,20 @@
 import asyncio
+from settings import apikey, src_name, phone_number
 from aiohttp import web
 from waio.rules import ABCRule
 from waio import Bot, Dispatcher
 from waio.logs import loguru_filter
 from waio.types import Message
-from waio.rules import TextRule, ContentType, PrefixRule
+from waio.rules import TextRule, ContentType
 from examples.list_keyboard.button import generate_button
 from examples.list_keyboard.callbacks import callback_element_potato, callback_list_dish, callback_element_rice
 
 loguru_filter.set_level('DEBUG')
 
 bot = Bot(
-    apikey='APIKEY',
-    src_name='SCR_NAME',
-    phone_number=00000000)
+    apikey=apikey,
+    src_name=src_name,
+    phone_number=phone_number)
 
 dp = Dispatcher(bot=bot)
 
@@ -23,7 +24,7 @@ async def start(message: Message):
     await bot.send_list(receiver=message.sender_number, button=generate_button())
 
 
-# Пример хендлера по id колбека
+# Пример отлова колбеков по id
 @dp.message_handler(callback_element_potato.filter(id=["1", "2"]))
 async def mashed_potatoes(message: Message):
     if message.callback_data_item.endswith("1"):
@@ -32,10 +33,10 @@ async def mashed_potatoes(message: Message):
         await message.answer("Отличный выбор! Сегодня на ужин у Вас пюре с курочкой")
 
 
-# Пример хендлера по prefix колбека
-@dp.message_handler(PrefixRule(prefix="rice"))
+# Пример отлова колбеков с фильтром и обработка по аргументам
+@dp.message_handler(callback_element_rice.filter())
 async def rice(message: Message):
-    if message.callback_data_item.split(sep=":")[1] == "cutlets":
+    if message.callback_data_item.split(sep=":")[1] == "cutlets":  # Обработка name
         await message.answer(f"Отличный выбор! Сегодня на ужин у Вас рис с котлетками")
     if message.callback_data_item.split(sep=":")[1] == "chicken":
         await message.answer("Отличный выбор! Сегодня на ужин у Вас рис с курочкой")
