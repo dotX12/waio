@@ -19,6 +19,7 @@ nav:
       - Content of the tutorial: tutorial/index.md
       - First bot: tutorial/first-bot.md
       - Filter rules: tutorial/filters.md
+      - FSM: tutorial/fsm.md
 
 theme:
   name: material
