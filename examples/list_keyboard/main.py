@@ -1,34 +1,45 @@
 import asyncio
+from settings import apikey, src_name, phone_number
 from aiohttp import web
-
+from waio.rules import ABCRule
 from waio import Bot, Dispatcher
 from waio.logs import loguru_filter
 from waio.types import Message
+from waio.rules import TextRule, ContentType, PrefixRule
 from examples.list_keyboard.button import generate_button
-from examples.list_keyboard.callbacks import callback_element_restaurant, callback_list_restaurant
+from examples.list_keyboard.callbacks import callback_element_potato, callback_list_dish, callback_element_rice
 
 loguru_filter.set_level('DEBUG')
 
 bot = Bot(
-    apikey='API_KEY',
-    src_name='SRC_NAME',
-    phone_number=00000000)
+    apikey=apikey,
+    src_name=src_name,
+    phone_number=phone_number)
 
 dp = Dispatcher(bot=bot)
 
 
-@dp.message_handler(callback_element_restaurant.filter(name='kfc'))
-async def start_command(message: Message):
-    await message.answer(f'Triggered on: callback_element_restaurant [KFC]\n'
-                         f'CallbackDataList: {message.callback_data_list}\n'
-                         f'CallbackDataItem: {message.callback_data_item}\n')
+@dp.message_handler(commands=["dinner"])
+async def start(message: Message):
+    await bot.send_list(receiver=message.sender_number, button=generate_button())
 
 
-@dp.message_handler(callback_list_restaurant.filter(id='1337'))
-async def start_command(message: Message):
-    await message.answer(f'Triggered on callback_list_restaurant\n'
-                         f'CallbackDataList: {message.callback_data_list}\n'
-                         f'CallbackDataItem: {message.callback_data_item}\n')
+# Пример хендлера по id колбека
+@dp.message_handler(callback_element_potato.filter(id=["1", "2"]))
+async def mashed_potatoes(message: Message):
+    if message.callback_data_item.endswith("1"):
+        await message.answer("Отличный выбор! Сегодня на ужин у Вас пюре с котлетками")
+    if message.callback_data_item.endswith("2"):
+        await message.answer("Отличный выбор! Сегодня на ужин у Вас пюре с курочкой")
+
+
+# Пример хендлера по prefix колбека
+@dp.message_handler(PrefixRule(prefix="rice"))
+async def rice(message: Message):
+    if message.callback_data_item.split(sep=":")[1] == "cutlets":
+        await message.answer(f"Отличный выбор! Сегодня на ужин у Вас рис с котлетками")
+    if message.callback_data_item.split(sep=":")[1] == "chicken":
+        await message.answer("Отличный выбор! Сегодня на ужин у Вас рис с курочкой")
 
 
 async def handler_gupshup(request):
@@ -37,13 +48,8 @@ async def handler_gupshup(request):
     return web.Response(status=200)
 
 
-async def _send_keyboard():
-    await bot.send_list(receiver=79109998877, button=generate_button())
-
-
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(_send_keyboard())
 
     webhook = web.Application()
     webhook.add_routes([web.post('/api/v1/gupshup/hook', handler_gupshup)])

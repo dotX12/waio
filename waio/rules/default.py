@@ -125,6 +125,17 @@ class TextRule(ABCRule):
             return await es.check(message)
 
 
+class PrefixRule(ABCRule):
+    def __init__(self, prefix: str):
+        self.prefix = prefix
+
+    async def check(self, message: Message) -> Union[str, bool]:
+        if self.prefix == message.callback_data_item.split(sep=":")[0]:
+            return True
+        else:
+            return False
+
+
 class ContentTypeRule(ABCRule):
     def __init__(self, content_types: List[ContentType]):
         self.content_types = content_types
