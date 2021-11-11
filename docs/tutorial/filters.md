@@ -6,13 +6,15 @@ To access rules out of the box, you can do different things:
 1. Import them from waio.rules and use them,
 initializing them directly in the decorator
 or in any other part of the code:
+
 ```python
 --8<-- "docs/assets/code/rules/unnamed_rule.py"
 ```
 
 2. Use the pre-built automatic rule unpackers that are 
 specified as an argument to the decorator.
-but in this case, some secondary arguments for the rule cannot be passed, if the rule contains more than one argument, for example:
+but in this case, some secondary arguments for the rule cannot be passed, 
+if the rule contains more than one argument, for example:
 [TextRule](https://github.com/dotX12/waio/blob/07d69354a5658c0d7cd9a32f21093b758c5d0bd8/waio/rules/default.py#L97),
 [MessageCommandsRule](https://github.com/dotX12/waio/blob/07d69354a5658c0d7cd9a32f21093b758c5d0bd8/waio/rules/default.py#L9)
 ```python
@@ -30,7 +32,7 @@ but in this case, some secondary arguments for the rule cannot be passed, if the
 ```
 
 ## Creating your own filter rules
-
+#### *Without an unpacker into a handler*
 > A rule is a class corresponding to the ABCRule interface, 
 which must implement only one asynchronous check method that accepts an event 
 and returns False if the check was not passed and True or a dictionary with 
@@ -76,7 +78,9 @@ and then pass to the decorator not an object of the rule, but a
 named argument of the name of the rule.
 
 ### Named filter rule
-**Please note that you need to declare the rules Now we can set an identifier for our rule (the name of the rule) and then pass to the decorator not an object of the rule, but a named argument of the name of the rule.before the handlers!**
+**Please note that you need to declare the rules Now we can set an identifier for our 
+rule (the name of the rule) and then pass to the decorator not an object of the rule, 
+but a named argument of the name of the rule.before the handlers!**
 
 ```python
 --8<-- "docs/assets/code/rules/register_rule.py"
@@ -92,4 +96,13 @@ Full code:
 
 ```python
 --8<-- "docs/assets/code/rules/full_code_rule_003.py"
+```
+
+#### *With an unpacker into a handler*
+> The `check` method can return not only `bool` type,
+but also a `dict` that will be unpacked into a handler,
+in which you can access everything that the filter returned.
+
+```python
+--8<-- "docs/assets/code/rules/rule_with_args.py"
 ```
