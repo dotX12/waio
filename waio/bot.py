@@ -25,7 +25,7 @@ class Bot(GupshupSettings, HTTPClient):
         super().__init__(apikey=apikey, src_name=src_name, phone_number=phone_number)
 
     async def _base_request(self, receiver: int, data: Any):
-        form = self._generate_form(receiver=receiver, message=data)
+        form = self._generate_form(receiver=receiver, data=data)
         response = await self.request(
             headers=self._headers(),
             method='POST',
@@ -34,12 +34,12 @@ class Bot(GupshupSettings, HTTPClient):
         )
         return response
 
-    def _generate_form(self, receiver, message):
+    def _generate_form(self, receiver, data):
         return generate_message_form(
             source=self.phone_number,
             receiver=receiver,
             app_name=self.src_name,
-            message=message.json()
+            message=data.json()
         )
 
     async def send_message(self, receiver: int, message: str):
@@ -64,45 +64,46 @@ class Dispatcher(Handler, BaseHandlers):
         return FSMContext(storage=self.storage, user_phone=user_phone)
 
     async def handle_event(self, event: Dict[str, Any]) -> None:
-        logger.debug(f'Event: - {event}')
+        try:
+            logger.debug(f'Event: - {event}')
+            if event.get("type") == "message":
+                context_variables = {}
 
-        if event["type"] == "message":
-            context_variables = {}
+                data_load = factory_gupshup.load(event, ResponseModel)
+                message = Message(bot=self.bot, message=data_load, state_func=self.state)
 
-            data_load = factory_gupshup.load(event, ResponseModel)
-            message = Message(bot=self.bot, message=data_load, state_func=self.state)
+                for middleware in self.labeler.MIDDLEWARES:
+                    middleware.fill(event=message)
+                    response = await middleware.pre()
 
-            for middleware in self.labeler.MIDDLEWARES:
-                middleware.fill(event=message)
-                response = await middleware.pre()
+                    logger.debug(f'[PRE]-Middleware: {middleware}')
 
-                logger.debug(f'[PRE]-Middleware: {middleware}')
+                    if response == MiddlewareResponse(False):
+                        return
+                    elif isinstance(response, dict):
+                        context_variables.update(response)
 
-                if response == MiddlewareResponse(False):
-                    return
-                elif isinstance(response, dict):
-                    context_variables.update(response)
+                logger.debug(f'[PRE]-Middleware values: {context_variables}')
 
-            logger.debug(f'[PRE]-Middleware values: {context_variables}')
+                handle_responses = []
+                current_handlers = []
 
-            handle_responses = []
-            current_handlers = []
+                for handler in self.handlers:
+                    resp = await HandlerExecutor.execute(handler=handler, message=message, **context_variables)
 
-            for handler in self.handlers:
-                resp = await HandlerExecutor.execute(handler=handler, message=message, **context_variables)
+                    if resp:
+                        handle_responses.append(resp)
+                        current_handlers.append(handler)
+                        await handler.handle(**resp)
+                        break
 
-                if resp:
-                    handle_responses.append(resp)
-                    current_handlers.append(handler)
-                    await handler.handle(**resp)
-                    break
+                logger.debug(f'Handlers: {current_handlers}, Return: {handle_responses}')
 
-            logger.debug(f'Handlers: {current_handlers}, Return: {handle_responses}')
+                for middleware in self.labeler.MIDDLEWARES:
+                    middleware.fill(event=message, handlers=current_handlers, handle_responses=handle_responses)
+                    logger.debug(f'[POST]-Middleware - {middleware}')
 
-            for middleware in self.labeler.MIDDLEWARES:
-                middleware.fill(event=message, handlers=current_handlers, handle_responses=handle_responses)
-                logger.debug(f'[POST]-Middleware - {middleware}')
-
-                await middleware.post()
-
+                    await middleware.post()
+        except Exception as exc:
+            logger.exception('Exception', exc)
 
