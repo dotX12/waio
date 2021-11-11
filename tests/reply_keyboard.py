@@ -1,4 +1,3 @@
-import pytest
 from waio.keyboard.reply import QuickReply, QuickReplyContentText, KeyboardButton, QuickReplyContentImage
 
 
