@@ -32,7 +32,7 @@ if the rule contains more than one argument, for example:
 ```
 
 ## Creating your own filter rules
-#### *Without an unpacker into a handler*
+
 > A rule is a class corresponding to the ABCRule interface, 
 which must implement only one asynchronous check method that accepts an event 
 and returns False if the check was not passed and True or a dictionary with 
@@ -98,7 +98,8 @@ Full code:
 --8<-- "docs/assets/code/rules/full_code_rule_003.py"
 ```
 
-#### *With an unpacker into a handler*
+
+### Unpacking data into a handler from a filter
 > The `check` method can return not only `bool` type,
 but also a `dict` that will be unpacked into a handler,
 in which you can access everything that the filter returned.
@@ -106,3 +107,17 @@ in which you can access everything that the filter returned.
 ```python
 --8<-- "docs/assets/code/rules/rule_with_args.py"
 ```
+
+Let's write a handler:
+
+```python
+--8<-- "docs/assets/code/rules/use_rule_with_args.py"
+```
+
+Let's analyze what is written above:
+In the decorator, we will set our filter` RussianNumberRule()`,
+if the user who sent the message to the bot has a 
+Russian telecom operator - the filter will be processed. 
+We will also add the `number_data` argument to the handler,
+which will contain our dictionary with information about this phone number,
+which was created in the filter.

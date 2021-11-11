@@ -1,4 +1,4 @@
-from typing import Dict, Union, Tuple
+from typing import Dict, Union, Tuple, Type
 from phonenumbers import timezone, parse, geocoder
 
 from waio.rules import ABCRule

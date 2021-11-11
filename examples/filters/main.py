@@ -2,10 +2,12 @@ import re
 
 from aiohttp import web
 from waio import Bot, Dispatcher
-from waio.rules.abc import ABCRule
 from waio.types import Message, ContentType
 from waio.logs import loguru_filter
 from waio.rules import TextRule, MessageCommandsRule
+
+from examples.filters.rule_long_message import LongMessageRule
+from examples.filters.rule_number import RussianNumberRule
 
 loguru_filter.set_level('DEBUG')
 
@@ -17,16 +19,12 @@ bot = Bot(
 
 dp = Dispatcher(bot=bot)
 
-
-class LongMessageRule(ABCRule):
-    def __init__(self, len_message: int):
-        self.len_message = len_message
-
-    async def check(self, message: Message) -> bool:
-        return len(message.text) > self.len_message
-
-
 dp.labeler.bind_rule('len', LongMessageRule)
+
+
+@dp.message_handler(RussianNumberRule(), commands=["check_number"])
+async def text_rule_check_number(message: Message, number_data):
+    await message.answer(f'You are from Russia! Number data:\n```{number_data}```')
 
 
 @dp.message_handler(commands=['start', 'echo'], content_type=[ContentType.TEXT])
