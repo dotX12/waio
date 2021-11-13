@@ -160,4 +160,4 @@ if __name__ == "__main__":
 <br>
 
 #### An example of using middleware in our github:
-<a href="https://github.com/paracosm17/waio/tree/master/examples/middleware">Middleware example</a>
+<a href="https://github.com/dotX12/waio/tree/master/examples/middleware">Middleware example</a>
