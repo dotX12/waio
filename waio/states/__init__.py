@@ -1,2 +1,2 @@
-from .fsm import BaseState, StateGroup
+from .fsm import BaseState, StatesGroup, State
 from .context import FSMContext

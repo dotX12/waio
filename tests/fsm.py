@@ -1,6 +1,6 @@
 import pytest
 from waio import Bot, Dispatcher
-from waio.states import StateGroup, BaseState
+from waio.states import StatesGroup, BaseState
 from waio.logs import loguru_filter
 from waio.storage import RedisStorage
 
@@ -16,7 +16,7 @@ storage = RedisStorage(prefix_fsm='fsm', redis_url="redis://localhost:6379")
 dp = Dispatcher(bot=bot, storage=storage)
 
 
-class TestState(StateGroup):
+class TestStates(StatesGroup):
     birthday = BaseState()
     email = BaseState()
 
@@ -33,9 +33,9 @@ async def test_clear_state():
 async def test_set_state():
     _state = dp.state(user_phone=79990000000)
     await _state.finish()
-    await _state.set_state(TestState.email)
+    await _state.set_state(TestStates.email)
     current_state = await _state.get_state()
-    assert current_state == str(TestState.email)
+    assert current_state == str(TestStates.email)
 
     await _state.finish(clear_data=True)
 
@@ -43,9 +43,9 @@ async def test_set_state():
 @pytest.mark.asyncio
 async def test_check_set_state():
     _state = dp.state(user_phone=79990000000)
-    await _state.set_state(TestState.email)
+    await _state.set_state(TestStates.email)
     current_state = await _state.get_state()
-    assert current_state == str(TestState.email)
+    assert current_state == str(TestStates.email)
     await _state.finish()
 
 

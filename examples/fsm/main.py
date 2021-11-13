@@ -1,6 +1,6 @@
 from aiohttp import web
 from waio import Bot, Dispatcher
-from waio.states import StateGroup, BaseState, FSMContext
+from waio.states import StatesGroup, BaseState, FSMContext
 from waio.types import Message
 from waio.logs import loguru_filter
 from waio.storage import RedisStorage
@@ -17,7 +17,7 @@ storage = RedisStorage(prefix_fsm='fsm', redis_url="redis://localhost:6379")
 dp = Dispatcher(bot=bot, storage=storage)
 
 
-class RegisterState(StateGroup):
+class RegisterStates(StatesGroup):
     birthday = BaseState()
     email = BaseState()
 
@@ -25,18 +25,18 @@ class RegisterState(StateGroup):
 @dp.message_handler(commands=['register'], state='*')
 async def register_name(message: Message, state: FSMContext):
     await message.answer(f'Hi, {message.sender_name}! send your date of birth')
-    await state.set_state(RegisterState.birthday)
+    await state.set_state(RegisterStates.birthday)
 
 
-@dp.message_handler(state=RegisterState.birthday)
+@dp.message_handler(state=RegisterStates.birthday)
 async def register_age(message: Message, state: FSMContext):
     await state.set_data(birthday=message.text)
     await message.answer(f'Thanks for sending you birthday!\n'
                          f'Send you email address')
-    await state.set_state(RegisterState.email)
+    await state.set_state(RegisterStates.email)
 
 
-@dp.message_handler(state=RegisterState.email)
+@dp.message_handler(state=RegisterStates.email)
 async def register_age(message: Message, state: FSMContext):
     await state.set_data(email=message.text)
     state_data_certain = await state.get_data("email", "birthday")

@@ -1,6 +1,6 @@
 import pytest
 
-from tests.fsm import TestState
+from tests.fsm import TestStates
 from waio import Dispatcher, Bot
 from waio.factory.base import ResponseModel
 from waio.factory.factory import factory_gupshup
@@ -21,7 +21,7 @@ dp = Dispatcher(bot=bot, storage=storage)
 @pytest.mark.asyncio
 async def test_check_state_filter_true():
     _state = dp.state(user_phone=79990000000)
-    await _state.set_state(TestState.email)
+    await _state.set_state(TestStates.email)
     message_json = {
         "app": "DemoApp",
         "timestamp": 1580227766370,
@@ -44,7 +44,7 @@ async def test_check_state_filter_true():
     }
     data_load = factory_gupshup.load(message_json, ResponseModel)
     message_model = Message(bot=dp.bot, message=data_load, state_func=dp.state)
-    rule = StateRule(state=TestState.email)
+    rule = StateRule(state=TestStates.email)
 
     check_filter = await rule.check(message=message_model)
     assert check_filter is True
@@ -55,7 +55,7 @@ async def test_check_state_filter_true():
 @pytest.mark.asyncio
 async def test_check_state_filter_false():
     _state = dp.state(user_phone=79990000000)
-    await _state.set_state(TestState.email)
+    await _state.set_state(TestStates.email)
 
     message_json = {
         "app": "DemoApp",
@@ -79,7 +79,7 @@ async def test_check_state_filter_false():
     }
     data_load = factory_gupshup.load(message_json, ResponseModel)
     message_model = Message(bot=dp.bot, message=data_load, state_func=dp.state)
-    rule = StateRule(state=TestState.email)
+    rule = StateRule(state=TestStates.email)
 
     check_filter = await rule.check(message=message_model)
     assert check_filter is False

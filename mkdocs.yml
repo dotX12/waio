@@ -20,6 +20,7 @@ nav:
       - First bot: tutorial/first-bot.md
       - Filter rules: tutorial/filters.md
       - FSM: tutorial/fsm.md
+      - Split code: tutorial/split-code.md
 
 theme:
   name: material

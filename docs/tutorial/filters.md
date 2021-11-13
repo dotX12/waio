@@ -21,7 +21,9 @@ if the rule contains more than one argument, for example:
 --8<-- "docs/assets/code/rules/named_rule.py"
 ```
 
-**You can set any number of named rules as well as unnamed ones.**
+!!! info "Combine filters!"
+    You can set any number of named rules as well as unnamed ones.
+
 ```python
 --8<-- "docs/assets/code/rules/nammed_unnamed.py"
 ```
@@ -100,9 +102,10 @@ Full code:
 
 
 ### Unpacking data into a handler from a filter
-> The `check` method can return not only `bool` type,
-but also a `dict` that will be unpacked into a handler,
-in which you can access everything that the filter returned.
+!!! info "Return custom data from filter? Of course!"
+    The `check` method can return not only `bool` type,
+    but also a `dict` that will be unpacked into a handler,
+    in which you can access everything that the filter returned.
 
 ```python
 --8<-- "docs/assets/code/rules/rule_with_args.py"
