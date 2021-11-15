@@ -5,6 +5,9 @@
 Used API official Facebook partner - <a href="https://gupshup.io">Gupshup.io</a>
 
 -----
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/156dbed18daf42438c72f780274601ab)](https://app.codacy.com/gh/dotX12/waio?utm_source=github.com&utm_medium=referral&utm_content=dotX12/waio&utm_campaign=Badge_Grade_Settings)
+
 </p>
 
 
