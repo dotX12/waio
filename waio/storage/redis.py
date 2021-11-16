@@ -1,4 +1,4 @@
-import json
+import ujson
 from typing import (
     Optional,
     Any, Dict, Union
@@ -19,7 +19,7 @@ class RedisStorage(RedisConnector):
         return f"{self.prefix_fsm}:{key}:data"
 
     async def _set(self, key: str, value: Any) -> bool:
-        _value = json.dumps(value)
+        _value = ujson.dumps(value)
         set_response = await self.redis.set(name=key, value=_value)
         return bool(set_response)
 
@@ -31,7 +31,7 @@ class RedisStorage(RedisConnector):
 
     async def _base_get(self, key) -> Dict[Union[str, int], Any]:
         value = await self.redis.get(name=key)
-        value_dict = json.loads(value)
+        value_dict = ujson.loads(value)
         return value_dict
 
     async def set(self, key, value) -> bool:
@@ -51,7 +51,7 @@ class RedisStorage(RedisConnector):
         key_state = self._generate_key_state(key=key)
         query = await self.redis.get(name=key_state)
         if query:
-            query_state = json.loads(query)
+            query_state = ujson.loads(query)
             if query_state.get("state"):
                 return query_state["state"]
         return None
