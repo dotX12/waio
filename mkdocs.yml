@@ -17,7 +17,7 @@ nav:
   - HUB: index.md
   - Tutorial:
       - Content of the tutorial: tutorial/index.md
-      - First bot: tutorial/first-bot.md
+      - First bot: tutorial/first_bot.md
       - Filter rules: tutorial/filters.md
       - FSM: tutorial/fsm.md
       - Split code: tutorial/split-code.md
