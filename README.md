@@ -23,6 +23,6 @@ make verification (check mark) and be cool!
 
 ## Official waio resources:
 - Documentation: [readthedocs](https://waio.readthedocs.io/)
-- Community: [@waio](https://t.me/waio)
+- Community RU: [@waio](https://t.me/waioru)
 - PyPI: [waio](https://pypi.python.org/pypi/waio)
 - Source: [Github repo](https://github.com/dotX12/waio)
