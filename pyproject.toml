@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "waio"
+version = "0.0.1"
+description = """waio - is a pretty simple and fully asynchronous framework for WhatsApp Business API
+written in Python 3.7 with asyncio and aiohttp. Used API official Facebook partner - Gupshup.io"""
+authors = ["dotX12"]
+license = "MIT License"
+keywords = ["python", "waio", "whatsapp", "asyncio", "aiohttp", "waba", "whats", "app", "bot"]
+readme = "README.md"
+homepage = "https://github.com/dotX12/waio"
+repository = "https://github.com/dotX12/waio"
+include = [
+    "README.md",
+    "LICENSE.md"
+]
+
+[tool.flit.metadata.urls]
+Documentation = "https://waio.readthedocs.io/"
+
+[tool.poetry.dependencies]
+python = "^3.6"
+aiohttp = "^3.7.4.post0"
+ujson = "^4.2.0"
+dataclass-factory = "^2.11"
+loguru = "^0.5.3"
+aioredis = "2.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0", "wheel>=0.36,<1.0", "poetry>=1.1,<2", "virtualenv==20.0.33"]
+build-backend = "poetry.core.masonry.api"
