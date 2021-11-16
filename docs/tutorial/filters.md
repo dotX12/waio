@@ -125,4 +125,4 @@ We will also add the `number_data` argument to the handler,
 which will contain our dictionary with information about this phone number,
 which was created in the filter.
 
-![gaw](/docs/assets/images/response_custom_arg_filter.png "Usage example")
+![](https://raw.githubusercontent.com/dotX12/waio/master/docs/assets/images/response_custom_arg_filter.png "Usage example")
