@@ -20,3 +20,9 @@ You can create an account and use a **Sandbox** to develop a bot
 and test functionality, and when you finish - create your own business
 number and transfer the functionality to your number,
 make verification (check mark) and be cool!
+
+## Official waio resources:
+- Documentation: [readthedocs](https://waio.readthedocs.io/)
+- Community: [@waio](https://t.me/waio)
+- PyPI: [waio](https://pypi.python.org/pypi/waio)
+- Source: [Github repo](https://github.com/dotX12/waio)
