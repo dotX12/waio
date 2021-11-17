@@ -3,21 +3,20 @@
 ## Register
 
 To get started, you will need to register on the website gupshup.io<br>
-<img src="https://i.ibb.co/zb84s4N/gupshup-register.png" align="bottom"><br>
+![](https://raw.githubusercontent.com/dotX12/waio/master/docs/assets/images/gupshup_register.png "Register")
 
 ## Create an app
 Now let's create our first app. Follow the link https://www.gupshup.io/developer/whatsapp-api and click "Try sandbox for free"<br>
-<img src="https://i.ibb.co/202TQpF/gupshup-trysandbox.png" align="bottom"><br>
+![](https://raw.githubusercontent.com/dotX12/waio/master/docs/assets/images/gupshup_trysandbox.png "Try sandbox")
 
 Give your app a name<br>
-<img src="https://i.ibb.co/1nQT39s/gupshup-appname.png" align="bottom"><br>
+![](https://raw.githubusercontent.com/dotX12/waio/master/docs/assets/images/gupshup_appname.png "Give an app name")
 
 Set your system language preference in the App<br>
-<img src="https://i.ibb.co/hX1QLFm/gupshup-language.png" align="bottom"><br>
+![](https://raw.githubusercontent.com/dotX12/waio/master/docs/assets/images/gupshup_language.png "Language")
 
 Now you can see App Control Panel<br>
-<img src="https://i.ibb.co/wyfswNv/gupshup-panel.png" align="bottom"><br>
-
+![](https://raw.githubusercontent.com/dotX12/waio/master/docs/assets/images/gupshup_panel.png "Control panel")
 
 ## Webhooks
 You can carry out the work using webhooks. To use webhooks with gupshup, let's install ngrok. 
@@ -31,7 +30,7 @@ You can carry out the work using webhooks. To use webhooks with gupshup, let's i
 (Press CTRL+C to quit)
 ```
 6. Paste the link into your app settings<br>
-<img src="https://i.ibb.co/ZgtF22L/gupshup-webhook.png" align="bottom"><br>
+![](https://raw.githubusercontent.com/dotX12/waio/master/docs/assets/images/gupshup_webhook.png "Set webhook")
 
 _Don't forget to add /api/v1/gupshup/hook to the link and enable the use of webhooks, as shown in the picture_
 
