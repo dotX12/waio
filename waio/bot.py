@@ -99,7 +99,7 @@ class Dispatcher(Handler, BaseHandlers):
 
                 logger.debug(f'Handlers: {current_handlers}, Return: {handle_responses}')
 
-                for middleware in self.labeler.MIDDLEWARES:
+                for middleware in reversed(self.labeler.MIDDLEWARES):
                     middleware.fill(event=message, handlers=current_handlers, handle_responses=handle_responses)
                     logger.debug(f'[POST]-Middleware - {middleware}')
 
