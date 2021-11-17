@@ -17,6 +17,7 @@ nav:
   - HUB: index.md
   - Tutorial:
       - Content of the tutorial: tutorial/index.md
+      - How to use gupshup sandbox: tutorial/gupshup_tutorial.md
       - First bot: tutorial/first_bot.md
       - Filter rules: tutorial/filters.md
       - FSM: tutorial/fsm.md
