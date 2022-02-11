@@ -12,6 +12,7 @@ from waio.keyboard.reply import QuickReply
 from waio.labeler import BotLabeler
 from waio.middleware import MiddlewareResponse
 from waio.models.enums import GupshupMethods
+from waio.models.image import ImageModel
 from waio.models.text import MessageText
 from waio.states.context import FSMContext
 from waio.storage.redis import RedisStorage
@@ -45,6 +46,16 @@ class Bot(GupshupSettings, HTTPClient):
     async def send_message(self, receiver: int, message: str):
         msg = MessageText(text=message)
         return await self._base_request(receiver=receiver, data=msg)
+
+    async def send_image(
+        self,
+        receiver: int,
+        original_url: str,
+        preview_url: Optional[str] = None,
+        caption: Optional[str] = None,
+    ):
+        image = ImageModel(original_url=original_url, preview_url=preview_url, caption=caption)
+        return await self._base_request(receiver=receiver, data=image)
 
     async def send_list(self, receiver: int, keyboard: ListMessage):
         return await self._base_request(receiver=receiver, data=keyboard)
