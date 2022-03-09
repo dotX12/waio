@@ -5,6 +5,7 @@ from waio.rules.abc import ABCRule
 from waio.states import BaseState
 from waio.types.content_types import ContentType
 from waio.types.message import Message
+from waio.utils.callback.filters import CallbackDataFilterItem
 
 
 class MessageCommandsRule(ABCRule):
@@ -146,3 +147,11 @@ class PhoneNumberRule(ABCRule):
             if phone == message.message.payload.sender.phone:
                 return True
         return False
+
+
+class CallbackFilter(ABCRule):
+    def __init__(self, item: CallbackDataFilterItem):
+        self.item = item
+
+    async def check(self, message: Message):
+        return await self.item.check(message=message)

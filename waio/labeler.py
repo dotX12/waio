@@ -10,7 +10,8 @@ from waio.rules.default import (
     TextRuleEquals,
     TextRuleContains,
     TextRuleStartswith,
-    TextRuleEndswith
+    TextRuleEndswith,
+    CallbackFilter,
 )
 
 
@@ -23,7 +24,8 @@ class BotLabeler:
         "text_contains": TextRuleContains,
         "text_startswith": TextRuleStartswith,
         "text_endswith": TextRuleEndswith,
-        "content_type": ContentTypeRule
+        "content_type": ContentTypeRule,
+        "callback":  CallbackFilter,
     }
     MIDDLEWARES: List[BaseMiddleware] = []
 
