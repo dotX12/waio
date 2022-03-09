@@ -10,14 +10,18 @@ from waio.handlers.executor import HandlerExecutor
 from waio.keyboard.list import ListMessage
 from waio.keyboard.reply import QuickReply
 from waio.labeler import BotLabeler
+from waio.logs.logger import logger
 from waio.middleware import MiddlewareResponse
+from waio.models.audio import AudioModel
 from waio.models.enums import GupshupMethods
+from waio.models.file import FileModel
 from waio.models.image import ImageModel
+from waio.models.sticker import StickerModel
 from waio.models.text import MessageText
+from waio.models.video import VideoModel
 from waio.states.context import FSMContext
 from waio.storage.redis import RedisStorage
 from waio.types.message import Message
-from waio.logs.logger import logger
 
 
 class Bot(GupshupSettings, HTTPClient):
@@ -48,14 +52,49 @@ class Bot(GupshupSettings, HTTPClient):
         return await self._base_request(receiver=receiver, data=msg)
 
     async def send_image(
-        self,
-        receiver: int,
-        original_url: str,
-        preview_url: Optional[str] = None,
-        caption: Optional[str] = None,
+            self,
+            receiver: int,
+            original_url: str,
+            preview_url: Optional[str] = None,
+            caption: Optional[str] = None,
     ):
         image = ImageModel(original_url=original_url, preview_url=preview_url, caption=caption)
         return await self._base_request(receiver=receiver, data=image)
+
+    async def send_file(
+            self,
+            receiver: int,
+            url: str,
+            filename: str,
+            caption: Optional[str] = None,
+    ):
+        file = FileModel(url=url, filename=filename, caption=caption)
+        return await self._base_request(receiver=receiver, data=file)
+
+    async def send_video(
+            self,
+            receiver: int,
+            url: str,
+            caption: Optional[str] = None,
+    ):
+        video = VideoModel(url=url, caption=caption)
+        return await self._base_request(receiver=receiver, data=video)
+
+    async def send_audio(
+            self,
+            receiver: int,
+            url: str,
+    ):
+        audio = AudioModel(url=url)
+        return await self._base_request(receiver=receiver, data=audio)
+
+    async def send_sticker(
+            self,
+            receiver: int,
+            url: str,
+    ):
+        sticker = StickerModel(url=url)
+        return await self._base_request(receiver=receiver, data=sticker)
 
     async def send_list(self, receiver: int, keyboard: ListMessage):
         return await self._base_request(receiver=receiver, data=keyboard)
