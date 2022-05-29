@@ -1,5 +1,5 @@
 aiohttp~=3.7.4.post0
-ujson~=5.1.0
+ujson~=5.2.0
 dataclass-factory~=2.11
 loguru~=0.5.3
 aioredis~=2.0.0
