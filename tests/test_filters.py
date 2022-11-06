@@ -2,11 +2,11 @@ import pytest
 
 from tests.fsm import TestStates
 from waio import Dispatcher, Bot
-from waio.factory.base import ResponseModel
 from waio.factory.factory import factory_gupshup
+from waio.factory.models.main import BaseResponse
 from waio.rules import StateRule
 from waio.storage import RedisStorage
-from waio.types import Message
+from waio.types import Event
 
 bot = Bot(apikey="FAKE_API_KEY", src_name="FAKE_SRC_NAME", phone_number=79289998877)
 
@@ -36,8 +36,8 @@ async def test_check_state_filter_true():
             },
         },
     }
-    data_load = factory_gupshup.load(message_json, ResponseModel)
-    message_model = Message(bot=dp.bot, message=data_load, state_func=dp.state)
+    data_load = factory_gupshup.load(message_json, BaseResponse)
+    message_model = Event(bot=dp.bot, message=data_load, state_func=dp.state)
     rule = StateRule(state=TestStates.email)
 
     check_filter = await rule.check(message=message_model)
@@ -69,8 +69,8 @@ async def test_check_state_filter_false():
             },
         },
     }
-    data_load = factory_gupshup.load(message_json, ResponseModel)
-    message_model = Message(bot=dp.bot, message=data_load, state_func=dp.state)
+    data_load = factory_gupshup.load(message_json, BaseResponse)
+    message_model = Event(bot=dp.bot, message=data_load, state_func=dp.state)
     rule = StateRule(state=TestStates.email)
 
     check_filter = await rule.check(message=message_model)
