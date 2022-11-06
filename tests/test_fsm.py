@@ -6,9 +6,13 @@ from waio.storage import RedisStorage
 
 loguru_filter.set_level("DEBUG")
 
-bot = Bot(apikey="FAKE_API_KEY", src_name="FAKE_SRC_NAME", phone_number=79289998877)
+bot = Bot(apikey="", src_name="", phone_number=12345678900)
 
-storage = RedisStorage(prefix_fsm="fsm", redis_url="redis://localhost:6379")
+storage = RedisStorage(
+    prefix_fsm="fsm",
+    redis_url="redis://default:pwd@192.168.1.102:6379"
+)
+
 dp = Dispatcher(bot=bot, storage=storage)
 
 
