@@ -1,4 +1,6 @@
 @dp.message_handler()
-async def start_switch(message: Message):
-    await message.answer(f'Hello, {message.message.payload.sender.name},'
-                         f' text: {message.message.payload.text}')
+async def start_switch(event: Event):
+    await event.answer(
+        f"Hello, {event.message.payload.sender.name},"
+        f" text: {event.message.payload.text}"
+    )
