@@ -18,7 +18,7 @@ Documentation = "https://waio.readthedocs.io/"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-aiohttp = "^3.7.4.post0"
+aiohttp = "^3.8.3"
 ujson = "5.4.0"
 dataclass-factory = "^2.11"
 loguru = "^0.5.3"
