@@ -1,12 +1,12 @@
-from waio.types import Message
+from waio.types import Event
 from waio.utils.callback.base_filter import CallbackDataFilterBase
 
 
 class CallbackDataFilterGroup(CallbackDataFilterBase):
-    async def check(self, message: Message):
-        return await self.base_check(message.callback_data_list)
+    async def check(self, event: Event):
+        return await self.base_check(event.callback_data_list)
 
 
 class CallbackDataFilterItem(CallbackDataFilterBase):
-    async def check(self, message: Message):
-        return await self.base_check(message.callback_data_item)
+    async def check(self, event: Event):
+        return await self.base_check(event.callback_data_item)

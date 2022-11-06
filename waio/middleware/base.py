@@ -1,25 +1,27 @@
 from abc import ABC
-from typing import List, Any, Dict, Optional
+from typing import Any
+from typing import Dict
+from typing import Optional
 
 from waio.handlers import ABCHandler
-from waio.types import Message
+from waio.types import Event
 
 
 class BaseMiddleware(ABC):
 
-    event: Message
-    handle_responses: Optional[List[Dict[str, Any]]]
-    handlers: Optional[List[ABCHandler]]
+    event: Event
+    handler: Optional[ABCHandler]
+    response: Optional[Dict[str, Any]]
 
     def fill(
-            self,
-            event: Message,
-            handle_responses: Optional[List[Dict[str, Any]]] = None,
-            handlers: Optional[List[ABCHandler]] = None,
+        self,
+        event: Event,
+        response: Optional[Dict[str, Any]] = None,
+        handler: Optional[ABCHandler] = None,
     ):
         self.event = event
-        self.handle_responses = handle_responses
-        self.handlers = handlers
+        self.handler = handler
+        self.response = response
 
     async def pre(self):
         pass
@@ -28,7 +30,9 @@ class BaseMiddleware(ABC):
         pass
 
     def __repr__(self) -> str:
-        return (f"<{self.__class__.__name__} "
-                f"event: {self.event}, "
-                f"handlers: {self.handlers}, "
-                f"returns: {self.handle_responses}>")
+        return (
+            f"<{self.__class__.__name__} "
+            f"event: {self.event}, "
+            f"handler: {self.handler}, "
+            f"return: {self.response}>"
+        )

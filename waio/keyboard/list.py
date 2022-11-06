@@ -1,3 +1,4 @@
+from typing import Dict
 from typing import Optional, Union, List
 import ujson
 
@@ -6,31 +7,31 @@ from waio.utils.dicts import clear_none_values
 
 class ListMainButton:
     def __init__(self, title: str):
-        self.type = 'text'
+        self.type = "text"
         self.title = title
 
-    def json(self):
+    def json(self) -> Dict[str, str]:
         return {"type": self.type, "title": self.title}
 
 
 class ListGroupItem:
     def __init__(
-            self,
-            title: str,
-            callback_data: Optional[str] = None,
-            description: Optional[str] = None,
+        self,
+        title: str,
+        callback_data: Optional[str] = None,
+        description: Optional[str] = None,
     ):
-        self.type = 'text'
+        self.type = "text"
         self.title = title  # Maximum length: 24 characters
         self.description = description  # Maximum length: 72 characters
         self.callback_data = callback_data
 
-    def json(self):
+    def json(self) -> Dict[str, Union[str, None]]:
         return {
             "type": self.type,
             "title": self.title,
             "description": self.description,
-            "postbackText": self.callback_data
+            "postbackText": self.callback_data,
         }
 
 
@@ -40,7 +41,7 @@ class ListGroup:
         self.subtitle = subtitle
         self.options: List[ListGroupItem] = []
 
-    def add(self, list_item: ListGroupItem) -> 'ListGroup':
+    def add(self, list_item: ListGroupItem) -> "ListGroup":
         self.options.append(list_item)
         return self
 
@@ -56,14 +57,14 @@ class ListGroup:
 
 class ListMessage:
     def __init__(
-            self,
-            title: str,
-            body: str,
-            button_title: str,
-            items: Optional[List[ListGroup]] = None,
-            callback_data: Optional[Union[int, str]] = None,
+        self,
+        title: str,
+        body: str,
+        button_title: str,
+        items: Optional[List[ListGroup]] = None,
+        callback_data: Optional[Union[int, str]] = None,
     ):
-        self.type = 'list'
+        self.type = "list"
         self.title = title
         self.body = body
         self.button_title = button_title
@@ -75,16 +76,16 @@ class ListMessage:
             self.items = items
 
     @property
-    def main_button(self):
+    def main_button(self) -> ListMainButton:
         return ListMainButton(title=self.button_title)
 
-    def json(self):
+    def json(self) -> str:
         d = {
             "type": self.type,
             "title": self.title,
             "body": self.body,
             "msgid": self.callback_data,
             "globalButtons": [self.main_button.json()],
-            "items": [item.json() for item in self.items]
+            "items": [item.json() for item in self.items],
         }
         return ujson.dumps(d, indent=2)

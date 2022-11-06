@@ -1,3 +1,3 @@
 @dp.message_handler(DynamicLongMessageRule(len_message=120))
-async def foo(message: Message):
+async def foo(event: Event):
     ...

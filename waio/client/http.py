@@ -5,7 +5,7 @@ from urllib.parse import unquote
 from typing import Optional, Union, Dict, Any, List, Tuple
 from aiohttp import ContentTypeError
 
-from waio.client.exceptions import FailedDecodeJson
+from waio.client.exceptions import FailedDecodeJsonError
 
 
 class HTTPClient:
@@ -24,22 +24,21 @@ class HTTPClient:
                 return await self.generate_json_from_response(resp)
 
     async def generate_json_from_response(
-        self,
-        resp: aiohttp.ClientResponse
+        self, resp: aiohttp.ClientResponse
     ) -> Tuple[Dict[str, Any], int]:
-        content_type = resp.headers.get('Content-Type')
+        content_type = resp.headers.get("Content-Type")
         try:
-            if content_type == 'text/plain':
+            if content_type == "text/plain":
                 resp_text = await resp.text()
                 resp_json = ujson.loads(resp_text)
                 return self.decode_json(resp_json), resp.status
 
-            elif content_type == 'application/json':
+            elif content_type == "application/json":
                 resp_json = await resp.json()
                 return resp_json, resp.status
 
         except ContentTypeError as e:
-            raise FailedDecodeJson(f"Check args, URL is invalid - {e}")
+            raise FailedDecodeJsonError(f"Check args, URL is invalid - {e}")
 
     @staticmethod
     def decode_json(data: Union[List, Dict[str, Any]]):
