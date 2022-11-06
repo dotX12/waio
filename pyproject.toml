@@ -17,12 +17,13 @@ include = [
 Documentation = "https://waio.readthedocs.io/"
 
 [tool.poetry.dependencies]
-python = "^3.6"
-aiohttp = "^3.7.4.post0"
+python = "^3.7"
+aiohttp = "^3.8.3"
 ujson = "5.4.0"
 dataclass-factory = "^2.11"
 loguru = "^0.5.3"
 aioredis = "2.0.0"
+magic-filter = "^1.0.9"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "wheel>=0.36,<1.0", "poetry>=1.1,<2", "virtualenv==20.0.33"]

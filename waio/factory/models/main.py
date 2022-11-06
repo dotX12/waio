@@ -19,5 +19,5 @@ class BaseResponse:
         PayloadButtonReply,
         PayloadImage,
         PayloadFile,
-        PayloadContacts
+        PayloadContacts,
     ]

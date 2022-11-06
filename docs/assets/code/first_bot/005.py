@@ -6,5 +6,5 @@ async def handler_gupshup(request):
 
 if __name__ == "__main__":
     webhook = web.Application()
-    webhook.add_routes([web.post('/api/v1/gupshup/hook', handler_gupshup)])
+    webhook.add_routes([web.post("/api/v1/gupshup/hook", handler_gupshup)])
     web.run_app(webhook, port=8017)

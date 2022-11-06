@@ -11,4 +11,3 @@ class PayloadSender:
 class PayloadBaseModel:
     sender: PayloadSender
     payload_id: str
-

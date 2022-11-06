@@ -7,15 +7,15 @@ class ExampleDatabase:
         self.data: Dict[str, Any] = {}
 
     def open_session(self) -> None:
-        self.session = 'OPEN'
+        self.session = "OPEN"
 
     def close_session(self) -> None:
-        self.session = 'CLOSED'
+        self.session = "CLOSED"
 
     @property
     def connection(self) -> bool:
-        if self.session == 'CLOSED':
-            raise Exception('Database is closed...')
+        if self.session == "CLOSED":
+            raise Exception("Database is closed...")
         return True
 
     def set(self, key, value) -> None:

@@ -1,4 +1,4 @@
-from typing import Union, Optional, Dict, Any
+from typing import Union, Optional, Dict
 
 from waio.states.fsm import BaseState
 from waio.storage.redis import RedisStorage
@@ -26,5 +26,7 @@ class FSMContext:
     async def get_data(self, *data_keys) -> Dict[str, Union[str, int]]:
         data_values = await self.storage.get_data(key=self.user)
         if data_keys:
-            return {key: value for key, value in data_values.items() if key in data_keys}
+            return {
+                key: value for key, value in data_values.items() if key in data_keys
+            }
         return data_values

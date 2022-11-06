@@ -1,12 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Any
 
-from waio.types import Message
+from waio.types import Event
 from waio.utils.callback.base_callback import CallbackDataBase
 
 
 class CallbackDataFilterBase(ABC):
-
     def __init__(self, factory: CallbackDataBase, config: Dict[str, str]):
         self.config = config
         self.factory = factory
@@ -26,8 +25,8 @@ class CallbackDataFilterBase(ABC):
                     return False
             elif data.get(key) != value:
                 return False
-        return {'callback_data': data}
+        return {"callback_data": data}
 
     @abstractmethod
-    async def check(self, message: Message):
+    async def check(self, event: Event):
         pass

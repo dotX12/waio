@@ -25,23 +25,24 @@ class BotLabeler:
         "text_startswith": TextRuleStartswith,
         "text_endswith": TextRuleEndswith,
         "content_type": ContentTypeRule,
-        "callback":  CallbackFilter,
+        "callback": CallbackFilter,
     }
     MIDDLEWARES: List[BaseMiddleware] = []
+    CUSTOM_RULES: Dict[str, Type[ABCRule]] = {}
 
-    def __init__(self):
-        self._custom_rules = {}
+    def __str__(self):
+        return f"BotLabeler custom_rules({self.CUSTOM_RULES}) middlewares ({self.MIDDLEWARES})"
 
-    def bind_rule(self, name: str, value: ABCRule):
-        self._custom_rules[name] = value
-
-    @property
-    def custom_rules(self):
-        return self._custom_rules
+    def bind_rule(self, name: str, value: Type[ABCRule]) -> None:
+        self.CUSTOM_RULES[name] = value
 
     @property
-    def default_rules(self):
+    def custom_rules(self) -> Dict[str, Type[ABCRule]]:
+        return self.CUSTOM_RULES
+
+    @property
+    def default_rules(self) -> Dict[str, Type[ABCRule]]:
         return self.DEFAULT_RULES
 
-    def register_middleware(self, middleware):
+    def register_middleware(self, middleware: BaseMiddleware) -> None:
         self.MIDDLEWARES.append(middleware)

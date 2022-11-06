@@ -1,3 +1,3 @@
 @dp.message_handler(StaticLongMessageRule())
-async def foo(message: Message):
+async def foo(event: Event):
     ...

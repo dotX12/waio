@@ -1,3 +1,5 @@
+from typing import Dict
+
 import ujson
 from typing import Union, List, Optional
 from waio.keyboard.list import ListMainButton
@@ -21,12 +23,12 @@ class QuickReplyContentText(QuickReplyContentBase):
 
         super().__init__(text, caption)
 
-    def json(self):
+    def json(self) -> Dict[str, str]:
         return {
             "type": self.type,
             "header": self.header,
             "text": self.text,
-            "caption": self.caption
+            "caption": self.caption,
         }
 
 
@@ -37,12 +39,12 @@ class QuickReplyContentImage(QuickReplyContentBase):
 
         super().__init__(text, caption)
 
-    def json(self):
+    def json(self) -> Dict[str, str]:
         return {
             "type": self.type,
             "url": self.url,
             "text": self.text,
-            "caption": self.caption
+            "caption": self.caption,
         }
 
 
@@ -54,13 +56,13 @@ class QuickReplyContentDocument(QuickReplyContentBase):
 
         super().__init__(text, caption)
 
-    def json(self):
+    def json(self) -> Dict[str, str]:
         return {
             "type": self.type,
             "url": self.url,
             "text": self.text,
             "caption": self.caption,
-            "filename": self.filename
+            "filename": self.filename,
         }
 
 
@@ -71,7 +73,7 @@ class QuickReplyContentVideo(QuickReplyContentBase):
 
         super().__init__(text, caption)
 
-    def json(self):
+    def json(self) -> Dict[str, str]:
         return {
             "type": self.type,
             "url": self.url,
@@ -82,15 +84,15 @@ class QuickReplyContentVideo(QuickReplyContentBase):
 
 class QuickReply:
     def __init__(
-            self,
-            callback_data: str,
-            content: Union[
-                QuickReplyContentText,
-                QuickReplyContentImage,
-                QuickReplyContentDocument,
-                QuickReplyContentVideo
-            ],
-            options: Optional[List[KeyboardButton]] = None
+        self,
+        callback_data: str,
+        content: Union[
+            QuickReplyContentText,
+            QuickReplyContentImage,
+            QuickReplyContentDocument,
+            QuickReplyContentVideo,
+        ],
+        options: Optional[List[KeyboardButton]] = None,
     ):
         self.type = "quick_reply"
         self.callback_data = callback_data
@@ -101,7 +103,7 @@ class QuickReply:
         else:
             self.options = options
 
-    def add(self, element: KeyboardButton) -> 'QuickReply':
+    def add(self, element: KeyboardButton) -> "QuickReply":
         self.options.append(element)
         return self
 
@@ -110,7 +112,7 @@ class QuickReply:
             "type": self.type,
             "msgid": self.callback_data,
             "content": self.content.json(),
-            "options": [element.json() for element in self.options]
+            "options": [element.json() for element in self.options],
         }
 
     def json(self):

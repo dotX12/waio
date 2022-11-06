@@ -8,13 +8,9 @@ from waio.rules import StateRule
 from waio.storage import RedisStorage
 from waio.types import Message
 
-bot = Bot(
-    apikey='FAKE_API_KEY',
-    src_name='FAKE_SRC_NAME',
-    phone_number=79289998877
-)
+bot = Bot(apikey="FAKE_API_KEY", src_name="FAKE_SRC_NAME", phone_number=79289998877)
 
-storage = RedisStorage(prefix_fsm='fsm', redis_url="redis://localhost:6379")
+storage = RedisStorage(prefix_fsm="fsm", redis_url="redis://localhost:6379")
 dp = Dispatcher(bot=bot, storage=storage)
 
 
@@ -31,16 +27,14 @@ async def test_check_state_filter_true():
             "id": "ABEGkYaYVSEEAhAL3SLAWwHKeKrt6s3FKB0c",
             "source": "79289998877",
             "type": "text",
-            "payload": {
-                "text": "Hi"
-            },
+            "payload": {"text": "Hi"},
             "sender": {
                 "phone": "79990000000",
                 "name": "Smit",
                 "country_code": "7",
-                "dial_code": "9990000000"
-            }
-        }
+                "dial_code": "9990000000",
+            },
+        },
     }
     data_load = factory_gupshup.load(message_json, ResponseModel)
     message_model = Message(bot=dp.bot, message=data_load, state_func=dp.state)
@@ -66,16 +60,14 @@ async def test_check_state_filter_false():
             "id": "ABEGkYaYVSEEAhAL3SLAWwHKeKrt6s3FKB0c",
             "source": "79289998877",
             "type": "text",
-            "payload": {
-                "text": "Hi"
-            },
+            "payload": {"text": "Hi"},
             "sender": {
                 "phone": "79287776655",
                 "name": "Anna",
                 "country_code": "7",
-                "dial_code": "9287776655"
-            }
-        }
+                "dial_code": "9287776655",
+            },
+        },
     }
     data_load = factory_gupshup.load(message_json, ResponseModel)
     message_model = Message(bot=dp.bot, message=data_load, state_func=dp.state)

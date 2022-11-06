@@ -1,14 +1,11 @@
 import ujson
-from typing import (
-    Optional,
-    Any, Dict, Union
-)
+from typing import Optional, Any, Dict, Union
 
 from waio.storage.connector import RedisConnector
 
 
 class RedisStorage(RedisConnector):
-    def __init__(self, redis_url: str, prefix_fsm: str = 'fsm', db: int = 1):
+    def __init__(self, redis_url: str, prefix_fsm: str = "fsm", db: int = 1):
         super().__init__(redis_url=redis_url, db_number=db)
         self.prefix_fsm = prefix_fsm
 

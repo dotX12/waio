@@ -2,14 +2,14 @@ from typing import Dict, Union, Tuple, Type
 from phonenumbers import timezone, parse, geocoder
 
 from waio.rules import ABCRule
-from waio.types import Message
+from waio.types import Event
 
 G_T = Dict[str, Union[int, str, Tuple[str]]]
 
 
 class RussianNumberRule(ABCRule):
-    async def check(self, message: Message) -> Union[bool, Dict[str, G_T]]:
-        phone_number_data = self.get_phone_number_data(message.sender_number)
+    async def check(self, event: Event) -> Union[bool, Dict[str, G_T]]:
+        phone_number_data = self.get_phone_number_data(event.sender_number)
         if phone_number_data["country"] == "Russia":
             return {"number_data": phone_number_data}
         return False
@@ -25,5 +25,5 @@ class RussianNumberRule(ABCRule):
             "country_code": phone_number.country_code,
             "national_number": phone_number.national_number,
             "country": country_name,
-            "time_zone": time_zones_number
+            "time_zone": time_zones_number,
         }

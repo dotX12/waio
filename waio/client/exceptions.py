@@ -1,2 +1,2 @@
-class FailedDecodeJson(Exception):
+class FailedDecodeJsonError(Exception):
     pass

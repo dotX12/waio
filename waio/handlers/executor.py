@@ -1,19 +1,30 @@
+from __future__ import annotations
 import inspect
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, TYPE_CHECKING
+from waio.types.message import Event
 
-from waio.handlers import ABCHandler
-from waio.types.message import Message
+if TYPE_CHECKING:
+    from waio.handlers import FromFuncHandler
 
 
 class HandlerExecutor:
-
     @classmethod
-    async def execute(cls, handler: ABCHandler, message: Message, **middleware_kwargs) -> Optional[Dict[str, Any]]:
-        handler_filter = await handler.filter(message)
-
+    async def execute(
+        cls, handler: FromFuncHandler, event: Event, **middleware_kwargs
+    ) -> Optional[Dict[str, Any]]:
+        handler_filter = await handler.filter(event=event)
         if isinstance(handler_filter, dict):
-            values_handler = {"message": message, "state": message.state, **handler_filter, **middleware_kwargs}
+            values_handler = {
+                "event": event,
+                "state": event.state,
+                **handler_filter,
+                **middleware_kwargs,
+            }
             func_info = inspect.getfullargspec(handler.handler)
-            values_to_func = {key: value for key, value in values_handler.items() if key in func_info.args}
+            values_to_func = {
+                key: value
+                for key, value in values_handler.items()
+                if key in func_info.args
+            }
             return values_to_func
         return None

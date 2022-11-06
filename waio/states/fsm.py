@@ -2,18 +2,14 @@ from typing import Optional, Dict, Any, Union
 
 
 class BaseState:
-    def __init__(
-        self,
-        state: Optional[str] = None,
-        group: Optional[object] = None
-    ):
+    def __init__(self, state: Optional[str] = None, group: Optional[object] = None):
         self._group = group
         self._state = state
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<BaseState> {self.group.__name__}:{self.state}"
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.group.__name__}:{self.state}"
 
     def __set_name__(self, owner: "StatesGroup", name: str) -> None:
@@ -40,15 +36,16 @@ class BaseState:
 class StatesGroupMeta(type):
     __states__: Dict[str, Any]
 
-    def __new__(mcs, cls_name, bases, attrs: Dict[str, Union[Any, BaseState]]):
+    def __new__(
+        mcs, cls_name, bases, attrs: Dict[str, Union[Any, BaseState]]
+    ) -> "StatesGroupMeta":
         mcs.__states__ = {
             state_attr: state_value
             for state_attr, state_value in attrs.items()
             if not state_attr.startswith("__")
         }
 
-        return super(StatesGroupMeta, mcs).__new__(
-            mcs, cls_name, bases, attrs)
+        return super(StatesGroupMeta, mcs).__new__(mcs, cls_name, bases, attrs)
 
 
 class StatesGroup(metaclass=StatesGroupMeta):

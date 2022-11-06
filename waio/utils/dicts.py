@@ -10,9 +10,11 @@ def clear_none_values(d: Union[List, Dict]):
         return d
     else:
         r = dict(
-            filter(lambda x: x[1] is not None,
-                   map(lambda x: (x[0], clear_none_values(x[1])),
-                       d.items())))
+            filter(
+                lambda x: x[1] is not None,
+                map(lambda x: (x[0], clear_none_values(x[1])), d.items()),
+            )
+        )
         if not bool(r):
             return None
         return r

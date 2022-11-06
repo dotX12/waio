@@ -8,7 +8,7 @@ PAYLOAD_TEXT = Schema(
         "type": "type",
         "text": ("payload", "text"),
     },
-    skip_internal=True
+    skip_internal=True,
 )
 
 PAYLOAD_SENDER = Schema(
@@ -16,7 +16,7 @@ PAYLOAD_SENDER = Schema(
         "phone": "phone",
         "name": "name",
     },
-    skip_internal=True
+    skip_internal=True,
 )
 
 PAYLOAD_LIST = Schema(
@@ -30,7 +30,7 @@ PAYLOAD_LIST = Schema(
         "description": ("payload", "description"),
     },
     pre_parse=type_checker("list_reply", field="type"),
-    skip_internal=True
+    skip_internal=True,
 )
 
 PAYLOAD_REPLY_KEYBOARD = Schema(
@@ -42,7 +42,7 @@ PAYLOAD_REPLY_KEYBOARD = Schema(
         "reply": ("payload", "reply"),
     },
     pre_parse=type_checker(value="button_reply", field="type"),
-    skip_internal=True
+    skip_internal=True,
 )
 
 PAYLOAD_IMAGE = Schema(
@@ -52,10 +52,10 @@ PAYLOAD_IMAGE = Schema(
         "url": ("payload", "url"),
         "content_type": ("payload", "contentType"),
         "url_expiry": ("payload", "urlExpiry"),
-        "caption": ("payload", "caption")
+        "caption": ("payload", "caption"),
     },
     pre_parse=type_checker(value="image", field="type"),
-    skip_internal=True
+    skip_internal=True,
 )
 
 PAYLOAD_FILE = Schema(
@@ -69,7 +69,7 @@ PAYLOAD_FILE = Schema(
         "name": ("payload", "name"),
     },
     pre_parse=type_checker(value="file", field="type"),
-    skip_internal=True
+    skip_internal=True,
 )
 
 BASE_MODEL = Schema(
@@ -77,7 +77,7 @@ BASE_MODEL = Schema(
         "payload_id": "id",
         "type": "type",
     },
-    skip_internal=True
+    skip_internal=True,
 )
 
 CONTACTS_PAYLOAD = Schema(
@@ -85,7 +85,7 @@ CONTACTS_PAYLOAD = Schema(
         "payload_id": "id",
         "contacts": ("payload", "contacts"),
     },
-    skip_internal=True
+    skip_internal=True,
 )
 
 PAYLOAD_CONTACT_PHONE = Schema(
@@ -93,30 +93,22 @@ PAYLOAD_CONTACT_PHONE = Schema(
         "phone": "phone",
         "type": "type",
     },
-    skip_internal=True
+    skip_internal=True,
 )
 
 PAYLOAD_CONTACT_ORGANIZATION = Schema(
     name_mapping={
         "company": "company",
     },
-    skip_internal=True
+    skip_internal=True,
 )
 
 PAYLOAD_CONTACT_URL = Schema(
-    name_mapping={
-        "url": "url",
-        "type": "type"
-    },
-    skip_internal=True
+    name_mapping={"url": "url", "type": "type"}, skip_internal=True
 )
 
 PAYLOAD_CONTACT_INFORMATION = Schema(
-    name_mapping={
-        "service": "service",
-        "user_id": "user_id"
-    },
-    skip_internal=True
+    name_mapping={"service": "service", "user_id": "user_id"}, skip_internal=True
 )
 
 PAYLOAD_CONTACT = Schema(
@@ -129,15 +121,11 @@ PAYLOAD_CONTACT = Schema(
         "phones": "phones",
         "urls": "urls",
     },
-    skip_internal=True
+    skip_internal=True,
 )
 
 PAYLOAD_CONTACT_EMAIL = Schema(
-    name_mapping={
-        "email": "email",
-        "type": "type"
-    },
-    skip_internal=True
+    name_mapping={"email": "email", "type": "type"}, skip_internal=True
 )
 PAYLOAD_CONTACT_ADDRESS = Schema(
     name_mapping={
@@ -147,9 +135,9 @@ PAYLOAD_CONTACT_ADDRESS = Schema(
         "state": "state",
         "street": "street",
         "type": "type",
-        "zip": "zip"
+        "zip": "zip",
     },
-    skip_internal=True
+    skip_internal=True,
 )
 
 RESPONSE_MESSAGE_PAYLOAD_PAYLOAD = Schema(
@@ -157,7 +145,7 @@ RESPONSE_MESSAGE_PAYLOAD_PAYLOAD = Schema(
         "whatsapp_Message_id": "whatsappMessageId",
         "type": "type",
     },
-    skip_internal=True
+    skip_internal=True,
 )
 
 RESPONSE_MESSAGE_PAYLOAD = Schema(
@@ -165,9 +153,9 @@ RESPONSE_MESSAGE_PAYLOAD = Schema(
         "id": "id",
         "type": "type",
         "destination": "destination",
-        "payload": "payload"
+        "payload": "payload",
     },
-    skip_internal=True
+    skip_internal=True,
 )
 
 RESPONSE_MESSAGE = Schema(
@@ -176,7 +164,7 @@ RESPONSE_MESSAGE = Schema(
         "timestamp": "timestamp",
         "version": "version",
         "type": "type",
-        "payload": "payload"
+        "payload": "payload",
     },
-    skip_internal=True
+    skip_internal=True,
 )

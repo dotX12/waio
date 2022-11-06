@@ -8,7 +8,7 @@ from waio.factory.models.text import PayloadText
 from waio.factory.models.response import (
     ResponseMessagePayload,
     ResponseMessagePayloadPayload,
-    ResponseMessage
+    ResponseUserEvent,
 )
 from waio.factory.models.contact import (
     PayloadContact,
@@ -19,7 +19,7 @@ from waio.factory.models.contact import (
     PayloadContactOrganization,
     PayloadContacts,
     PayloadContactUrl,
-    PayloadSender
+    PayloadSender,
 )
 from waio.factory.schemas import (
     BASE_MODEL,
@@ -39,7 +39,7 @@ from waio.factory.schemas import (
     RESPONSE_MESSAGE,
     PAYLOAD_CONTACT_EMAIL,
     RESPONSE_MESSAGE_PAYLOAD,
-    RESPONSE_MESSAGE_PAYLOAD_PAYLOAD
+    RESPONSE_MESSAGE_PAYLOAD_PAYLOAD,
 )
 
 factory_gupshup = Factory(
@@ -59,12 +59,11 @@ factory_gupshup = Factory(
         PayloadContactInformation: PAYLOAD_CONTACT_INFORMATION,
         PayloadContactEmail: PAYLOAD_CONTACT_EMAIL,
         PayloadContactAddress: PAYLOAD_CONTACT_ADDRESS,
-        ResponseMessage: RESPONSE_MESSAGE,
+        ResponseUserEvent: RESPONSE_MESSAGE,
         ResponseMessagePayload: RESPONSE_MESSAGE_PAYLOAD,
-        ResponseMessagePayloadPayload: RESPONSE_MESSAGE_PAYLOAD_PAYLOAD
-    }, debug_path=True)
-
-factory_default = Factory(
-    default_schema=Schema(omit_default=True),
-    debug_path=True
+        ResponseMessagePayloadPayload: RESPONSE_MESSAGE_PAYLOAD_PAYLOAD,
+    },
+    debug_path=True,
 )
+
+factory_default = Factory(default_schema=Schema(omit_default=True), debug_path=True)

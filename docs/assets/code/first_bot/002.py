@@ -1,9 +1,9 @@
-loguru_filter.set_level('DEBUG')
+loguru_filter.set_level("DEBUG")
 
 bot = Bot(
-    apikey='algAJW9512kMWGALZIkAMWG',
-    src_name='test_client18215',
-    phone_number='79189998877'
+    apikey="XXX",
+    src_name="YYY",
+    phone_number="PHONE",
 )
 
 dp = Dispatcher(bot=bot)

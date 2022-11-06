@@ -15,4 +15,3 @@ class ContentType(Enum):
     CONTACT = PayloadContacts
     BUTTON = PayloadButtonReply
     LIST = PayloadList
-

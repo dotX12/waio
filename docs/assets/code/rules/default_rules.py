@@ -6,5 +6,5 @@
     "text_contains": TextRuleContains,
     "text_startswith": TextRuleStartswith,
     "text_endswith": TextRuleEndswith,
-    "content_type": ContentTypeRule
+    "content_type": ContentTypeRule,
 }
