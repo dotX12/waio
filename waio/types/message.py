@@ -69,7 +69,10 @@ class Event(MessagePropertyEvent):
 
 class EventSubscribe:
     def __init__(
-        self, bot: Bot, message: ResponseUserEvent, state_func: Callable[[int], FSMContext]
+        self,
+        bot: Bot,
+        message: ResponseUserEvent,
+        state_func: Callable[[int], FSMContext],
     ):
         self.bot = bot
         self.message = message

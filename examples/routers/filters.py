@@ -3,7 +3,6 @@ from waio.types import Event
 
 
 class DynamicLongMessageRule(ABCRule):
-
     def __init__(self, len_message: int):
         self.len_message = len_message
 

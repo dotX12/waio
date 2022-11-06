@@ -99,12 +99,10 @@ async def text_start_switch_without_labeler(event: Event):
 @dp.message_handler(
     (F.message.payload.content_type == "image/gif")
     & (F.message.payload.sender.name == "Alex")
-    & ((F.message.payload.sender.phone.cast(str)[:4]) == '7928')
+    & ((F.message.payload.sender.phone.cast(str)[:4]) == "7928")
 )
 async def test_magic_filter(event: Event):
-    await event.answer(
-        f"Test Filter"
-    )
+    await event.answer(f"Test Filter")
 
 
 async def handler_gupshup(request):

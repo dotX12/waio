@@ -19,7 +19,7 @@ class WhatsAppEventObserver:
         self.event_name = event_name
         self._handlers = []
 
-    def register(self, handler,  *rules, **custom_rules):
+    def register(self, handler, *rules, **custom_rules):
         handler_object = FromFuncHandler(
             handler,
             *rules,
@@ -68,13 +68,15 @@ class WhatsAppEventObserver:
     ) -> ExecutedHandlerData:
         for router in self.router.chain_tail:
             for handler in router.observers[self.event_name]._handlers:
-                logger.debug(f'[Resolver]: Router: {router} Handler: {handler}')
+                logger.debug(f"[Resolver]: Router: {router} Handler: {handler}")
                 resp = await HandlerExecutor.execute(
                     handler=handler, event=event, **context_variables
                 )
                 if resp:
                     await handler.handle(**resp)
-                    logger.debug(f"[Result] Router: {router} Handler: {handler} Return {resp}")
+                    logger.debug(
+                        f"[Result] Router: {router} Handler: {handler} Return {resp}"
+                    )
                     return ExecutedHandlerData(
                         handler=handler,
                         response=resp,

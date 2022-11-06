@@ -20,5 +20,3 @@ class HandlerRule:
             for k, v in rules.items()
             if k in self.labeler.custom_rules.keys()
         ]
-
-

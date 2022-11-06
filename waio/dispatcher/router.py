@@ -13,10 +13,7 @@ from waio.labeler import BotLabeler
 
 class Router(HandlerRule):
     def __init__(
-        self,
-        *,
-        name: Optional[str] = None,
-        labeler: Optional[BotLabeler] = None
+        self, *, name: Optional[str] = None, labeler: Optional[BotLabeler] = None
     ):
         self.labeler = labeler or BotLabeler()
 
@@ -25,8 +22,12 @@ class Router(HandlerRule):
         self.sub_routers: List[Router] = []
 
         self.message_handler = WhatsAppEventObserver(router=self, event_name="message")
-        self.notify_success_handler = WhatsAppEventObserver(router=self, event_name="opted-in")
-        self.notify_denied_handler = WhatsAppEventObserver(router=self, event_name="opted-out")
+        self.notify_success_handler = WhatsAppEventObserver(
+            router=self, event_name="opted-in"
+        )
+        self.notify_denied_handler = WhatsAppEventObserver(
+            router=self, event_name="opted-out"
+        )
 
         self.observers: Dict[str, WhatsAppEventObserver] = {
             "message": self.message_handler,
@@ -103,4 +104,3 @@ class Router(HandlerRule):
             )
         router.parent_router = self
         return router
-

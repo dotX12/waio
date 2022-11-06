@@ -23,14 +23,18 @@ class Dispatcher(Router):
         self,
         bot: Bot,
         storage: Optional[RedisStorage] = None,
-        name: Optional[str] = None
+        name: Optional[str] = None,
     ):
         self.bot = bot
         self.storage = storage
         self.labeler = BotLabeler()
         self.message_handler = WhatsAppEventObserver(router=self, event_name="message")
-        self.notify_success_handler = WhatsAppEventObserver(router=self, event_name="opted-in")
-        self.notify_denied_handler = WhatsAppEventObserver(router=self, event_name="opted-out")
+        self.notify_success_handler = WhatsAppEventObserver(
+            router=self, event_name="opted-in"
+        )
+        self.notify_denied_handler = WhatsAppEventObserver(
+            router=self, event_name="opted-out"
+        )
 
         self.observers: Dict[str, WhatsAppEventObserver] = {
             "message": self.message_handler,
@@ -49,9 +53,7 @@ class Dispatcher(Router):
             if event.get("type", "") == "message":
                 data_load = factory_gupshup.load(event, BaseResponse)
                 event_obj = Event(
-                    bot=self.bot,
-                    message=data_load,
-                    state_func=self.state
+                    bot=self.bot, message=data_load, state_func=self.state
                 )
                 await self.observers["message"].notify(event=event_obj)
 
@@ -59,9 +61,7 @@ class Dispatcher(Router):
                 if event["payload"]["type"] == EventPayloadType.start_dialog:
                     data_load = factory_gupshup.load(event, ResponseUserEvent)
                     event_obj = EventSubscribe(
-                        bot=self.bot,
-                        message=data_load,
-                        state_func=self.state
+                        bot=self.bot, message=data_load, state_func=self.state
                     )
                     await self.observers["opted-in"].notify(event=event_obj)
 

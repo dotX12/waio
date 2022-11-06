@@ -14,9 +14,7 @@ class FromFuncHandler:
 
     @classmethod
     async def _f_rule_event(
-        cls,
-        rule: Union[ABCRule, MagicFilter],
-        event: Event
+        cls, rule: Union[ABCRule, MagicFilter], event: Event
     ) -> Union[bool, Dict[Any, Any]]:
         if isinstance(rule, MagicFilter):
             result = rule.resolve(event)
